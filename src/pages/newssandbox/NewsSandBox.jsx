@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 import { Layout, theme } from 'antd';
 import SideMenu from '../../components/sandbox/SideMenu'
 import TopHeader from '../../components/sandbox/TopHeader'
-import './index.css'
 
 export default function NewsSandBox() {
   const {
