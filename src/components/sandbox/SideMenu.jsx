@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router';
+import axios from 'axios'
 import { Layout, Menu } from 'antd';
 import {
     HomeOutlined,
@@ -6,8 +8,6 @@ import {
     TeamOutlined,
 } from '@ant-design/icons';
 import './index.css'
-import { useNavigate } from 'react-router';
-import axios from 'axios'
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -67,7 +67,7 @@ export default function SideMenu() {
     useEffect(() => {
         axios.get('http://localhost:8000/permission').then(res => {
             setSideMenu(res.data)
-        })
+        })        
     }, []);
 
     return (

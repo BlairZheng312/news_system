@@ -5,7 +5,7 @@
 }
 
 .login-header {
-    background-color:#fbb215;
+    background-color: #fbb215;
     color: white;
     height: 80px;
     line-height: 80px;
@@ -13,7 +13,8 @@
     font-weight: 800;
     text-align: center;
 }
-.login-header h1{
+
+.login-header h1 {
     font-size: 40px;
     font-weight: 800;
 }
@@ -21,7 +22,7 @@
 .login-content {
     border: #fbb215 1px solid;
     border-radius: 5%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2) ;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     color: rgb(103, 103, 103);
     height: 300px;
     width: 400px;
@@ -30,14 +31,13 @@
     padding: 20px 40px;
 }
 
-.login-content h2{
+.login-content h2 {
     text-align: center;
     font-size: 32px;
     text-align: center;
     margin-bottom: 16px;
 }
 
-.login-submit{
+.login-submit {
     text-align: center;
 }
-
