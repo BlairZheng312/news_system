@@ -24,11 +24,10 @@
     border-radius: 5%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     color: rgb(103, 103, 103);
-    height: 300px;
     width: 400px;
     margin: 80px auto;
     font-size: 36px;
-    padding: 20px 40px;
+    padding: 25px 40px;
 }
 
 .login-content h2 {

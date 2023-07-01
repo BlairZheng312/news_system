@@ -8,11 +8,16 @@ import UserList from '../pages/newssandbox/user_manage/UserList'
 import PermissionList from '../pages/newssandbox/permission_manage/PermissionList'
 import RoleList from '../pages/newssandbox/permission_manage/RoleList'
 import NoPermission from '../pages/newssandbox/no_perssion/NoPermission'
+import Register from '../pages/login/Register'
 
 const elementTable = [
     {
         path: '/login',
         element: < Login />
+    },
+    {
+        path: '/register',
+        element: < Register />
     },
     {
         path: '/',

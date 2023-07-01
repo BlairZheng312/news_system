@@ -11,7 +11,7 @@ conn.on('connected', () => {
 const userSchema = new Schema({
     username: { type: String, requireed: true },
     password: { type: String, requireed: true },
-    type: { type: String, requireed: true },
+    role: { type: String, requireed: true },
 });
 
 const UserModel = mongoose.model('user', userSchema);
