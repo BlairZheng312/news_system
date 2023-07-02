@@ -1,7 +1,7 @@
 .logo{
     line-height: 40px;
-    background-color: #fb6d15;
-    color: white;
+    background-color: transparent;
+    color: rgba(171, 197, 225, 0.846);
     margin: 3px;
     font-size: 16px;
     text-align: center;

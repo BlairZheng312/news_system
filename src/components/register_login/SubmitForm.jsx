@@ -1,14 +1,35 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select } from 'antd';
+import { useLoginMutation, useRegisterMutation } from '../../store/requestApi';
 import './index.css'
 
 export default function SubmitForm(props) {
   const { usernameValidator, passwordValidator, login } = props
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const [registerQuery] = useRegisterMutation()
+  const [loginQuery] = useLoginMutation()
+
+  const navigate = useNavigate()
+
+  const onFinish = async (value) => {
+    if (login) {
+      const userInfo = await loginQuery(value)
+      if (userInfo.data.code === 0) {
+        navigate('/home')
+      } else {
+        console.log('login fail')
+      }
+    } else {
+      const registerInfo = await registerQuery(value)
+      if (registerInfo.data.code === 0) {
+        console.log('register sucess')
+        navigate('/login')
+      } else {
+        console.log('register fail')
+      }
+    }
   };
 
   const { Option } = Select;

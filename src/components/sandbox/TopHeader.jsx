@@ -43,7 +43,7 @@ export default function TopHeader() {
                         items,
                     }}
                 >
-                    <Avatar size={36} icon={<UserOutlined style={{color: '#fb6d15'}} />} />
+                    <Avatar size={36} icon={<UserOutlined style={{color: '#fbb215'}} color={'white'}/>} />
                 </Dropdown>
             </div>
         </Header>

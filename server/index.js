@@ -1,12 +1,15 @@
 import express from "express"
-import { UserModel } from "./db/models.js"
+import bodyParser from "body-parser"
 import md5 from "blueimp-md5"
+import { UserModel } from "./db/models.js"
 
 const app = express()
+const filter = { password: 0, __v: 0 }
 
-const filter = {password: 0, __v:0}
+app.use(bodyParser.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
-app.post('/register', express.urlencoded({ extended: true }), async (req, res) => {
+app.post('/register',  async (req, res) => {
     const { username, password, role } = req.body
     const user = await UserModel.findOne({ username })
     if (user) {
@@ -17,12 +20,12 @@ app.post('/register', express.urlencoded({ extended: true }), async (req, res) =
             role,
             password: md5(password)
         })
-        await newUser.save().then((user) => {
-            res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 })
-            res.send({ code: 0, data: { _id: user._id, username, role } })
-        })
+        const user = await newUser.save()
+        res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 })
+        res.send({ code: 0, data: { _id: user._id, username, role } })
     }
 })
+
 app.post('/login', express.urlencoded({ extended: true }), async (req, res) => {
     const { username, password } = req.body
     const user = await UserModel.findOne({ username, password: md5(password) }, filter)
@@ -65,8 +68,6 @@ app.get('/permission', (req, res) => {
             ]
         },
     ]
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', '*')
     res.send(items)
 })
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
-import axios from 'axios'
 import { Layout, Menu } from 'antd';
 import {
     HomeOutlined,
@@ -8,6 +7,7 @@ import {
     TeamOutlined,
 } from '@ant-design/icons';
 import './index.css'
+import { useGetSideMenuQuery } from '../../store/requestApi';
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -64,11 +64,10 @@ export default function SideMenu() {
     const { Sider } = Layout;
     const navigate = useNavigate()
     const [sideMenu, setSideMenu] = useState([])
+    const {data, isSuccess} = useGetSideMenuQuery()
     useEffect(() => {
-        axios.get('http://localhost:8000/permission').then(res => {
-            setSideMenu(res.data)
-        })        
-    }, []);
+        isSuccess && setSideMenu(data)
+    }, [isSuccess,data]);
 
     return (
         <Sider trigger={null} collapsible collapsed={collapsed}>
