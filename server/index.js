@@ -6,13 +6,16 @@ import { UserModel } from "./db/models.js"
 const app = express()
 const filter = { password: 0, __v: 0 }
 
-app.use(bodyParser.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.post('/register',  async (req, res) => {
-    const { username, password, role } = req.body
+app.post('/register', async (req, res) => {
+    const { username, password, confirmPassword, role } = req.body
     const user = await UserModel.findOne({ username })
-    if (user) {
+    if (password !== confirmPassword) {
+        res.send({ code: 1, msg: 'Passwords not match, please try again' })
+    }
+    else if (user) {
         res.send({ code: 1, msg: 'User existed' })
     } else {
         const newUser = new UserModel({
@@ -33,7 +36,7 @@ app.post('/login', express.urlencoded({ extended: true }), async (req, res) => {
         res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 })
         res.send({ code: 0, data: user })
     } else {
-        res.send({ code: 1, msg: 'Username or password incorrect, try again' })
+        res.send({ code: 1, msg: 'Username or password incorrect, please try again' })
     }
 })
 

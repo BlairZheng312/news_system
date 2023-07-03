@@ -1,38 +1,51 @@
 import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, message } from 'antd';
 import { useLoginMutation, useRegisterMutation } from '../../store/requestApi';
+import { login, logout } from '../../store/authSlice';
 import './index.css'
 
 export default function SubmitForm(props) {
-  const { usernameValidator, passwordValidator, login } = props
+  const { usernameValidator, passwordValidator, loginForm } = props
 
   const [registerQuery] = useRegisterMutation()
   const [loginQuery] = useLoginMutation()
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
+
+  const source = location.state?.pathname || '/'
 
   const onFinish = async (value) => {
-    if (login) {
+    if (loginForm) {
       const userInfo = await loginQuery(value)
       if (userInfo.data.code === 0) {
-        navigate('/home')
+        message.success('Login success')
+        navigate(source, { replace: true })
+        dispatch(login({
+          username: userInfo.data.data.username,
+          role: userInfo.data.data.role
+        }))
       } else {
-        console.log('login fail')
+        message.error(userInfo.data.msg)
       }
     } else {
       const registerInfo = await registerQuery(value)
       if (registerInfo.data.code === 0) {
-        console.log('register sucess')
+        message.success('Register success')
+        dispatch(logout())
         navigate('/login')
       } else {
-        console.log('register fail')
+        message.error(registerInfo.data.msg)
       }
     }
   };
 
   const { Option } = Select;
+
 
   return (
     <div className='login'>
@@ -40,7 +53,7 @@ export default function SubmitForm(props) {
         <h1>News Delivery Management System</h1>
       </header>
       <section className='login-content'>
-        <h2>{login ? 'User Login' : 'User Register'}</h2>
+        <h2>{loginForm ? 'User Login' : 'User Register'}</h2>
         <Form
           name="normal_login"
           className="login-form"
@@ -74,7 +87,7 @@ export default function SubmitForm(props) {
             />
           </Form.Item>
 
-          {login ? <></> : <Form.Item
+          {loginForm ? <></> : <Form.Item
             name="confirmPassword"
             rules={[
               {
@@ -89,7 +102,7 @@ export default function SubmitForm(props) {
             />
           </Form.Item>}
 
-          {login ? <></> : <Form.Item
+          {loginForm ? <></> : <Form.Item
             name="role"
             label="Role"
             rules={[
@@ -110,9 +123,9 @@ export default function SubmitForm(props) {
 
           <Form.Item className='login-submit'>
             <Button type="primary" htmlType="submit" className="login-form-button" >
-              {login ? 'Log in' : 'Register'}
+              {loginForm ? 'Log in' : 'Register'}
             </Button>
-            Or <NavLink to={login ? '/register' : '/login'}>{login ? 'register' : 'login'} now!</NavLink>
+            Or <NavLink to={loginForm ? '/register' : '/login'}>{loginForm ? 'register' : 'login'} now!</NavLink>
           </Form.Item>
         </Form>
       </section>

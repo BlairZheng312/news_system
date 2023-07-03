@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Layout, Button, theme, Dropdown, Avatar } from 'antd';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     UserOutlined,
 } from '@ant-design/icons';
+import { logout } from '../../store/authSlice';
 
 export default function TopHeader() {
     const [collapsed, setCollapsed] = useState(false);
@@ -13,17 +16,30 @@ export default function TopHeader() {
     } = theme.useToken();
     const { Header } = Layout;
 
+    const auth = useSelector(state => state.auth)
+
     const items = [
         {
             key: '1',
-            label: 'Admin',
+            label: auth.username,
         },
         {
             key: '2',
             danger: true,
-            label: 'Log out',
+            label: auth.isLogin? 'Log out':'Log in'
         },
     ];
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const onClick = (key) => {
+        if (key.key === '2') {
+            dispatch(logout());
+            navigate('/login')
+        }
+    };
+
     return (
         <Header style={{ padding: 0, background: colorBgContainer }}>
             <Button
@@ -41,9 +57,10 @@ export default function TopHeader() {
                 <Dropdown
                     menu={{
                         items,
+                        onClick
                     }}
                 >
-                    <Avatar size={36} icon={<UserOutlined style={{color: '#fbb215'}} color={'white'}/>} />
+                    <Avatar size={36} icon={<UserOutlined style={{ color: '#fbb215' }} color={'white'} />} />
                 </Dropdown>
             </div>
         </Header>

@@ -30,6 +30,6 @@ export default function Register() {
   }
 
   return (
-    <SubmitForm usernameValidator={usernameValidator} passwordValidator={passwordValidator} login={false} />
+    <SubmitForm usernameValidator={usernameValidator} passwordValidator={passwordValidator} loginForm={false} />
   )
 }
