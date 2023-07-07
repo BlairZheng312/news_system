@@ -46,7 +46,6 @@ export default function SubmitForm(props) {
 
   const { Option } = Select;
 
-
   return (
     <div className='login'>
       <header className='login-header'>
@@ -115,9 +114,9 @@ export default function SubmitForm(props) {
               placeholder="Select a role"
               allowClear
             >
-              <Option value="manager">Manager</Option>
-              <Option value="area manager">Area Manager</Option>
-              <Option value="area editor">Area Editor</Option>
+              <Option value="Manager">Manager</Option>
+              <Option value="Area manager">Area Manager</Option>
+              <Option value="Area editor">Area Editor</Option>
             </Select>
           </Form.Item>}
 

@@ -21,7 +21,7 @@ export default function TopHeader() {
     const items = [
         {
             key: '1',
-            label: auth.username,
+            label: auth.role,
         },
         {
             key: '2',
@@ -53,7 +53,7 @@ export default function TopHeader() {
                 }}
             />
             <div style={{ float: 'right' }}>
-                <span style={{ padding: '10px' }}>Welcome</span>
+                <span style={{ padding: '10px' }}>Welcome {auth.username}</span>
                 <Dropdown
                     menu={{
                         items,

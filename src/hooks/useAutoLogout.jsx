@@ -8,16 +8,20 @@ export default function useAutoLogout() {
     const auth = useSelector(state => state.auth)
 
     useEffect(() => {
-        const timeout = auth.expiry - Date.now()
-        if (timeout < 3000) {
-            dispatch(logout())
-            message.warning('Session expired, please login again')
-            return
-        }
+        let timer
+        if (auth.isLogin) {
+            const timeout = auth.expiry - Date.now()
+            if (timeout < 3000) {
+                dispatch(logout())
+                message.warning('Session expired, please login again')
+                return
+            }
 
-        const timer = setTimeout(() => {
-            dispatch(logout())
-        }, timeout)
+            timer = setTimeout(() => {
+                dispatch(logout())
+                message.warning('Session expired, please login again')
+            }, timeout)
+        }
 
         return () => {
             clearTimeout(timer)

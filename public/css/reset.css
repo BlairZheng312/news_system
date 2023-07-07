@@ -85,3 +85,16 @@ html{
 .ant-layout {
   height: 100vh;
 }
+
+::-webkit-scrollbar{
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #ef3c00d8;
+}
+
+::-webkit-scrollbar-track{
+  background-color: transparent
+}

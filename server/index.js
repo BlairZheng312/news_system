@@ -14,8 +14,7 @@ app.post('/register', async (req, res) => {
     const user = await UserModel.findOne({ username })
     if (password !== confirmPassword) {
         res.send({ code: 1, msg: 'Passwords not match, please try again' })
-    }
-    else if (user) {
+    } else if (user) {
         res.send({ code: 1, msg: 'User existed' })
     } else {
         const newUser = new UserModel({
@@ -62,11 +61,11 @@ app.get('/permission', (req, res) => {
             children: [
                 {
                     label: 'Role List',
-                    key: 'permission-manage/role-list'
+                    key: '/permission-manage/role-list'
                 },
                 {
                     label: 'Permission List',
-                    key: 'permission-manage/permission-list'
+                    key: '/permission-manage/permission-list'
                 },
             ]
         },
