@@ -5,8 +5,7 @@ import Auth from '../components/auth_control/Auth'
 import NewsSandBox from '../pages/newssandbox/NewsSandBox'
 import Home from '../pages/newssandbox/home/Home'
 import UserList from '../pages/newssandbox/user_manage/UserList'
-import PermissionList from '../pages/newssandbox/permission_manage/PermissionList'
-import RoleList from '../pages/newssandbox/permission_manage/RoleList'
+import RoleList from '../pages/newssandbox/role_manage/RoleList'
 import NoPermission from '../pages/newssandbox/no_perssion/NoPermission'
 import Register from '../pages/login/Register'
 
@@ -36,19 +35,14 @@ const elementTable = [
                     < Home />
             },
             {
-                path: 'user-manage/user-list',
+                path: 'user-manage',
                 element:
                     < UserList />
             },
             {
-                path: 'permission-manage/role-list',
+                path: 'role-manage',
                 element:
                     < RoleList />
-            },
-            {
-                path: 'permission-manage/permission-list',
-                element:
-                    < PermissionList />
             },
             {
                 path: '*',

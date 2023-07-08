@@ -1,5 +1,5 @@
 import React from 'react'
-import SubmitForm from '../../components/register_login/SubmitForm';
+import LoginForm from '../../components/loginForm';
 
 export default function Register() {
   const usernameValidator = (_, value) => {
@@ -30,6 +30,6 @@ export default function Register() {
   }
 
   return (
-    <SubmitForm usernameValidator={usernameValidator} passwordValidator={passwordValidator} loginForm={false} />
+    <LoginForm usernameValidator={usernameValidator} passwordValidator={passwordValidator} loginForm={false} />
   )
 }

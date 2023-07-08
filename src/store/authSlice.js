@@ -25,7 +25,7 @@ const authSlice = createSlice({
             state.role = action.payload.role
             state.isLogin = true
             const currentTime = Date.now()
-            const timeout = 1000 * 60 * 60
+            const timeout = 1000 * 60 * 60 * 24
             // const timeout = 1000 * 5
             state.expiry = currentTime + timeout
 

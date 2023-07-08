@@ -1,5 +1,5 @@
 import React from 'react'
-import SubmitForm from '../../components/register_login/SubmitForm';
+import LoginForm from '../../components/loginForm';
 
 export default function Login() {
   const validator = (_, value) => {
@@ -11,7 +11,7 @@ export default function Login() {
   }
 
   return (
-      <SubmitForm usernameValidator={validator} passwordValidator={validator} loginForm={true} />
+      <LoginForm usernameValidator={validator} passwordValidator={validator} loginForm={true} />
   )
 }
 

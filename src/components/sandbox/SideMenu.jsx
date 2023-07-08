@@ -1,16 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Layout, Menu } from 'antd';
-import {
-    HomeOutlined,
-    SmileOutlined,
-    TeamOutlined,
-    HighlightOutlined,
-    EyeOutlined
-} from '@ant-design/icons';
-import './index.css'
-// import { useGetSideMenuQuery } from '../../store/requestApi';
 import sideMenuItems from '../../config/sideMenu';
+import './index.css'
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -22,39 +15,31 @@ function getItem(label, key, icon, children, type) {
     };
 }
 
-const iconList = {
-    '/home': <HomeOutlined />,
-    '/user-manage': <SmileOutlined />,
-    '/permission-manage': <TeamOutlined />,
-    '/news-manage': <HighlightOutlined />,
-    '/review-manage': <EyeOutlined />
-}
-
 export default function SideMenu() {
-    const [collapsed] = useState(false);
+    const collapsed = useSelector(state => state.collapsed);
     const { Sider } = Layout;
     const navigate = useNavigate()
     const location = useLocation()
     const selectedKey = [location.pathname]
-    const openKey = ['/'+location.pathname.split('/')[1]]
-
-    // const [sideMenu, setSideMenu] = useState([])
-    // const {data, isSuccess} = useGetSideMenuQuery()
-    // useEffect(() => {
-    //     isSuccess && setSideMenu(data)
-    // }, [isSuccess,data]);
+    let openKey
+    sideMenuItems.forEach(item => {
+        const cItem = item.children?.find(cItem => cItem.key === location.pathname)
+        if (cItem) {
+            openKey = [item.key]
+        }
+    })
 
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={collapsed.collapseStatus}>
             <div className='sidemenu'>
-                <div className="sidemenu-logo" >News Delivery System</div>
+                <div className="sidemenu-logo" >{collapsed.collapseStatus?'News':'News Delivery System'}</div>
                 <div className='sidemenu-content'>
                     <Menu
                         selectedKeys={selectedKey}
                         defaultOpenKeys={openKey}
                         mode="inline"
                         theme="dark"
-                        items={sideMenuItems.map(item => getItem(item.label, item.key, iconList[item.key], item.children)
+                        items={sideMenuItems.map(item => getItem(item.label, item.key, item.icon, item.children)
                         )}
                         onClick={(e) => { navigate(e.key) }}
                     />

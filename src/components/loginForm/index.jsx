@@ -7,7 +7,7 @@ import { useLoginMutation, useRegisterMutation } from '../../store/requestApi';
 import { login, logout } from '../../store/authSlice';
 import './index.css'
 
-export default function SubmitForm(props) {
+export default function LoginForm(props) {
   const { usernameValidator, passwordValidator, loginForm } = props
 
   const [registerQuery] = useRegisterMutation()
