@@ -52,7 +52,7 @@ router.get('/role/list', async (req, res) => {
     }
 })
 
-router.post('/role/add', async (req, res) => {
+router.post('/role/add-role', async (req, res) => {
     const { role_name } = req.body
     try {
         const role = await RoleModel.findOne({ role_name })
@@ -62,6 +62,23 @@ router.post('/role/add', async (req, res) => {
             const newRole = new RoleModel({ role_name })
             const role = await newRole.save()
             res.send({ code: 0, data: role })
+        }
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+router.post('/role/add-permission', async (req, res) => {
+    const { role_name, auth_name, menus } = req.body
+    try {
+        const role = await RoleModel.findOne({ role_name })
+        if (role) {
+            role.auth_name = auth_name
+            role.menus = menus
+            role.auth_time = Date.now()
+            role.save()
+            res.send({ code: 0, data: role })
+        } else {
+            res.send({ code: 1, msg: 'Something went wrong, please try again' })
         }
     } catch {
         res.send({ code: 1, msg: 'Something went wrong, please try again' })

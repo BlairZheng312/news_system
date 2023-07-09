@@ -17,8 +17,12 @@ if(!superManager){
             '/news-manage/category',
             '/review-manage',
             '/review-manage/review',
-            '/review-manage/list'
-        ]
+            '/review-manage/list',
+            '/publish-manage',
+            '/publish-manage/publish',
+            '/publish-manage/withdraw'
+        ],
+        auth_time:Date.now(),
     })
     superManager.save()
 }

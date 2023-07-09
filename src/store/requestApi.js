@@ -25,19 +25,28 @@ export const requestApi = createApi({
                     }
                 },
             }),
-            addRole:build.mutation({
+            getRoleList: build.query({
+                query() {
+                    return {
+                        url: 'role/list'
+                    }
+                },
+            }),
+            addRole: build.mutation({
                 query(role) {
                     return {
-                        url: 'role/add',
+                        url: 'role/add-role',
                         method: 'post',
                         body: role
                     }
                 },
             }),
-            getRoleList: build.query({
-                query() {
+            addPermission: build.mutation({
+                query(role) {
                     return {
-                        url: 'role/list'
+                        url: 'role/add-permission',
+                        method: 'post',
+                        body: role
                     }
                 },
             }),
@@ -46,11 +55,11 @@ export const requestApi = createApi({
 })
 
 export const {
-    useGetSideMenuQuery,
     useLoginMutation,
     useRegisterMutation,
+    useGetRoleListQuery,
     useAddRoleMutation,
-    useGetRoleListQuery
+    useAddPermissionMutation
 } = requestApi
 
 export default requestApi

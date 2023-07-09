@@ -3,6 +3,7 @@ import {
     SmileOutlined,
     TeamOutlined,
     HighlightOutlined,
+    CoffeeOutlined,
     EyeOutlined
 } from '@ant-design/icons';
 
@@ -44,7 +45,7 @@ const sideMenuItems = [
     {
         label: 'Review',
         key: '/review-manage',
-        icon: <EyeOutlined />,
+        icon: <CoffeeOutlined />,
         children: [
             {
                 label: 'To Review',
@@ -53,6 +54,21 @@ const sideMenuItems = [
             {
                 label: 'Review List',
                 key: '/review-manage/list'
+            }
+        ]
+    },
+    {
+        label: 'Publish',
+        key: '/publish-manage',
+        icon: <EyeOutlined />,
+        children: [
+            {
+                label: 'To Publish',
+                key: '/publish-manage/publish'
+            },
+            {
+                label: 'To Withdraw',
+                key: '/publish-manage/withdraw'
             }
         ]
     },
