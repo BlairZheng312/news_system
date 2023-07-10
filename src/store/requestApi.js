@@ -25,6 +25,13 @@ export const requestApi = createApi({
                     }
                 },
             }),
+            getUserList: build.query({
+                query() {
+                    return {
+                        url: 'user/list'
+                    }
+                },
+            }),
             getRoleList: build.query({
                 query() {
                     return {
@@ -57,6 +64,7 @@ export const requestApi = createApi({
 export const {
     useLoginMutation,
     useRegisterMutation,
+    useGetUserListQuery,
     useGetRoleListQuery,
     useAddRoleMutation,
     useAddPermissionMutation

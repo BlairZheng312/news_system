@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Tree, Form, Input, Divider } from 'antd';
 import sideMenuItems from '../../config/sideMenu';
 
+// get permission list (same as side menu list)
 const getSideMenu = (items) => {
     return items.map(item => {
         if (item.children) {
@@ -11,19 +12,17 @@ const getSideMenu = (items) => {
         }
     })
 }
-
 const treeData = getSideMenu(sideMenuItems)
 
 export default function AddPermission(props) {
     const [checkedKeys, setCheckedKeys] = useState(props.role.menus)
-    const onCheck = (checkedKeys, info) => {
-        info.node.checked = !info.node.checked
+
+    // pass checked keys to parent component
+    const onCheck = (checkedKeys) => {
         setCheckedKeys(checkedKeys)
         props.setMenu(checkedKeys)
     };
-    useEffect(() => {
-        setCheckedKeys(props.role.menus)
-    }, [props.role.menus])
+
     return (
         <Form
             name="addForm"
@@ -37,7 +36,6 @@ export default function AddPermission(props) {
             <Divider />
             <Tree
                 checkable
-                defaultCheckedKeys={props.role.menus}
                 checkedKeys={checkedKeys}
                 onCheck={onCheck}
                 treeData={treeData}

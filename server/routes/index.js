@@ -1,6 +1,6 @@
 import express from "express"
 import md5 from "blueimp-md5"
-import { UserModel } from "../models/models.js"
+import { UserModel } from "../models/users.js"
 import { RoleModel } from "../models/roles.js"
 
 const router = express.Router()
@@ -33,6 +33,7 @@ router.post('/register', async (req, res) => {
             const newUser = new UserModel({
                 username,
                 role,
+                register_time:Date.now(),
                 password: md5(password)
             })
             const user = await newUser.save()
@@ -43,7 +44,16 @@ router.post('/register', async (req, res) => {
     }
 })
 
-router.get('/role/list', async (req, res) => {
+router.get('/user/list', async (_, res) => {
+    try {
+        const users = await UserModel.find()
+        res.send({ code: 0, data: users })
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
+router.get('/role/list', async (_, res) => {
     try {
         const roles = await RoleModel.find()
         res.send({ code: 0, data: roles })

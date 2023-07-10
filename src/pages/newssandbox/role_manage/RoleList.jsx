@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Divider, Table, Button, Modal, Form, message } from 'antd';
 import { useAddRoleMutation, useGetRoleListQuery, useAddPermissionMutation } from '../../../store/requestApi';
-import { setRoleList } from '../../../store/roleListSlice';
 import AddRole from '../../../components/roleForm/AddRole'
 import AddPermission from '../../../components/roleForm/AddPermission';
 
-
+// table column title & index
 const columns = [
   {
     title: 'Role Name',
@@ -15,10 +14,12 @@ const columns = [
   {
     title: 'Create Time',
     dataIndex: 'create_time',
+    render: (create_time) => new Date(create_time).toDateString()
   },
   {
     title: 'Authorized Time',
     dataIndex: 'auth_time',
+    render: (auth_time) => auth_time ? new Date(auth_time).toDateString() : null
   },
   {
     title: 'Authorizer',
@@ -27,22 +28,27 @@ const columns = [
 ];
 
 export default function RoleList() {
-  const [form] = Form.useForm();
-  const [role, setRole] = useState({})
-  const dispatch = useDispatch()
+  // connect to modal form
+  const [form] = Form.useForm()
 
+  // store role list
+  const [roleList, setRoleList] = useState([])
+
+  // store selected role
+  const [role, setRole] = useState({})
+
+  // fetch rolelist from db
   const { data, isSuccess } = useGetRoleListQuery()
   useEffect(() => {
-    isSuccess && dispatch(setRoleList(data.data))
-  }, [isSuccess, data, dispatch]);
+    isSuccess && setRoleList(data.data)
+  }, [isSuccess, data]);
 
-  const roleList = useSelector(state => state.roleList)
-
+  // control modal open/close
   const [createRole, setCreateRole] = useState(false);
   const [rolePermission, setRolePermission] = useState(false)
 
+  // create new role
   const [addRoleQuery] = useAddRoleMutation()
-
   const roleOk = async () => {
     try {
       const formValue = await form.validateFields()
@@ -55,7 +61,7 @@ export default function RoleList() {
         if (newRole.data.code === 0) {
           setCreateRole(false)
           message.success('Role added successfully')
-          dispatch(setRoleList([...roleList.roleList, newRole.data.data]))
+          setRoleList([...roleList, newRole.data.data])
         } else {
           message.error(newRole.data.msg)
         }
@@ -65,12 +71,13 @@ export default function RoleList() {
     }
   };
 
+  // receive checked permission keys from child component
   const [checkedKeys, setCheckedKeys] = useState(role.menu)
-
   const setMenu = (menus) => {
     setCheckedKeys(menus)
   }
 
+  // confirm updated permission (to update db, selected role, role list)
   const [addPermissionQuery] = useAddPermissionMutation()
   const auth = useSelector(state => state.auth)
   const permissionOk = async () => {
@@ -80,13 +87,15 @@ export default function RoleList() {
       auth_name: auth.role
     })
     if (newPermission.data.code === 0) {
-      setRolePermission(false)
-      const newRoleList = roleList.roleList.map(item => {
+      const newRoleList = roleList.map(item => {
         if (item._id === newPermission.data.data._id)
           return newPermission.data.data
         else return item
       })
-      dispatch(setRoleList(newRoleList))
+      setRoleList(newRoleList)
+      setRole(newPermission.data.data)
+      setRolePermission(false)
+      message.success('Permission updated successfully')
     } else (
       message.error(newPermission.data.msg)
     )
@@ -108,18 +117,17 @@ export default function RoleList() {
       </div>
 
       <Divider />
-
       <Table
         columns={columns}
-        dataSource={roleList.roleList}
+        dataSource={roleList}
         rowKey='_id'
+        pagination={{ defaultPageSize: 4 }}
         rowSelection={{
           type: 'radio',
           selectedRowKeys: [role._id],
-          onChange: (roleKey, role) => {
+          onChange: (_, role) => {
             setRole(role[0])
           }
-
         }}
         onRow={(role) => {
           return {
@@ -129,11 +137,10 @@ export default function RoleList() {
           }
         }}
       />
-
-      <Modal title="Create new role" okText='Save' open={createRole} onOk={roleOk} onCancel={() => setCreateRole(false)}>
+      <Modal title="Create New Role" okText='Save' open={createRole} onOk={roleOk} onCancel={() => setCreateRole(false)}>
         <AddRole form={form} />
       </Modal>
-      <Modal title="Set role permission" okText='Save' open={rolePermission} onOk={permissionOk} onCancel={() => setRolePermission(false)}>
+      <Modal title="Set Role Permission" okText='Save' destroyOnClose={true} open={rolePermission} onOk={permissionOk} onCancel={() => setRolePermission(false)}>
         <AddPermission role={role} setMenu={setMenu} />
       </Modal>
     </div>
