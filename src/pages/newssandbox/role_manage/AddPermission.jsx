@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Tree, Form, Input, Divider } from 'antd';
-import sideMenuItems from '../../config/sideMenu';
+import sideMenuItems from '../../../config/sideMenu';
 
 // get permission list (same as side menu list)
 const getSideMenu = (items) => {

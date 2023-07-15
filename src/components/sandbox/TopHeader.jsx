@@ -1,6 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { Layout, Button, theme, Dropdown, Avatar } from 'antd';
 import {
     MenuFoldOutlined,
@@ -22,7 +22,7 @@ export default function TopHeader() {
     const items = [
         {
             key: '1',
-            label: auth.role,
+            label: `${auth.area} ${auth.role}`,
         },
         {
             key: '2',

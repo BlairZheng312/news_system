@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { Divider, Table, Button, Modal, Form, message } from 'antd';
 import { useAddRoleMutation, useGetRoleListQuery, useAddPermissionMutation } from '../../../store/requestApi';
-import AddRole from '../../../components/roleForm/AddRole'
-import AddPermission from '../../../components/roleForm/AddPermission';
+import { logout } from '../../../store/authSlice'
+import AddRole from './AddRole'
+import AddPermission from './AddPermission';
 
 // table column title & index
 const columns = [
@@ -27,7 +29,7 @@ const columns = [
   }
 ];
 
-export default function RoleList() {
+export default function Role() {
   // connect to modal form
   const [form] = Form.useForm()
 
@@ -78,13 +80,16 @@ export default function RoleList() {
   }
 
   // confirm updated permission (to update db, selected role, role list)
+  // force logout if current user's role permission updated
   const [addPermissionQuery] = useAddPermissionMutation()
   const auth = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const permissionOk = async () => {
     const newPermission = await addPermissionQuery({
       role_name: role.role_name,
       menus: checkedKeys,
-      auth_name: auth.role
+      auth_name: auth.username
     })
     if (newPermission.data.code === 0) {
       const newRoleList = roleList.map(item => {
@@ -95,7 +100,13 @@ export default function RoleList() {
       setRoleList(newRoleList)
       setRole(newPermission.data.data)
       setRolePermission(false)
-      message.success('Permission updated successfully')
+      if (role.role_name === auth.role) {
+        dispatch(logout())
+        message.success('Current user permission updated, please log in again')
+        navigate('/login')
+      } else {
+        message.success('Permission updated successfully')
+      }
     } else (
       message.error(newPermission.data.msg)
     )
@@ -111,7 +122,7 @@ export default function RoleList() {
         >Create New Role</Button>
         <Button
           type='primary'
-          disabled={!role._id}
+          disabled={!role._id || role.role_name === "Super Manager"}
           onClick={() => setRolePermission(true)}
         >Set Role Permission</Button>
       </div>

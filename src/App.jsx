@@ -12,7 +12,7 @@ export default function App() {
       theme={{
         token: {
           colorPrimary: '#fbb215',
-        },
+        }
       }}
     >
       {element}

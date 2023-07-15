@@ -5,6 +5,7 @@ export const requestApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:3000/api'
     }),
+    keepUnusedDataFor: 0,
     endpoints(build) {
         return {
             register: build.mutation({
@@ -25,6 +26,24 @@ export const requestApi = createApi({
                     }
                 },
             }),
+            deleteUser: build.mutation({
+                query(userId) {
+                    return {
+                        url: 'user/delete',
+                        method: 'post',
+                        body: userId
+                    }
+                },
+            }),
+            updateUser: build.mutation({
+                query(user) {
+                    return {
+                        url: 'user/update',
+                        method: 'post',
+                        body: user
+                    }
+                },
+            }),
             getUserList: build.query({
                 query() {
                     return {
@@ -36,6 +55,14 @@ export const requestApi = createApi({
                 query() {
                     return {
                         url: 'role/list'
+                    }
+                },
+            }),
+            getRole: build.query({
+                query(role_name) {
+                    return {
+                        url: 'role/auth',
+                        params:{role_name}
                     }
                 },
             }),
@@ -64,8 +91,11 @@ export const requestApi = createApi({
 export const {
     useLoginMutation,
     useRegisterMutation,
+    useDeleteUserMutation,
+    useUpdateUserMutation,
     useGetUserListQuery,
     useGetRoleListQuery,
+    useGetRoleQuery,
     useAddRoleMutation,
     useAddPermissionMutation
 } = requestApi

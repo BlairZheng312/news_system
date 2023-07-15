@@ -9,10 +9,11 @@ conn.on('connected', () => {
 })
 
 const userSchema = new Schema({
-    username: { type: String, requireed: true },
-    password: { type: String, requireed: true },
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+    area: { type: String, required: true },
     register_time: Number,
-    role_id: String,
+    role: { type: String, required: true },
 });
 
 const UserModel = mongoose.model('user', userSchema);

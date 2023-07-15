@@ -11,7 +11,8 @@ const sideMenuItems = [
     {
         label: 'Home',
         key: '/home',
-        icon: <HomeOutlined />
+        icon: <HomeOutlined />,
+        isPublic: true
     },
     {
         label: 'Users',
