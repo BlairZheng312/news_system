@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Layout, Menu } from 'antd';
 import { useGetRoleQuery } from '../../store/requestApi';
 import sideMenuItems from '../../config/sideMenu';
+import { setPermissionList } from '../../store/permissionSlice';
 import './index.css'
 
 function getItem(label, key, icon, children, type) {
@@ -24,15 +25,16 @@ export default function SideMenu() {
     const location = useLocation()
 
     // control sidemenu collapse
-    const collapsed = useSelector(state => state.collapsed);
+    const collapse = useSelector(state => state.collapse);
 
-    // fetch role permission from db
+    // fetch role permission from db and store in redux
     const auth = useSelector(state => state.auth)
-    const [rolePermission, setRolePermission] = useState([])
+    const dispatch = useDispatch()
     const { data, isSuccess } = useGetRoleQuery(auth.role)
     useEffect(() => {
-        isSuccess && setRolePermission(data.data.menus)
-    }, [isSuccess, data]);
+        isSuccess && dispatch(setPermissionList(data.data.menus))
+    }, [isSuccess, data, dispatch]);
+    const rolePermission = useSelector(state => state.permission).permissionList
 
     // set sidemenu by role permission
     const getSideMenu = (sideMenuItems, rolePermission) => {
@@ -58,10 +60,11 @@ export default function SideMenu() {
         return sideMenu
     }
 
+    // set side menu (super manager has full access)
     let sideMenu = []
-    if(auth.role === 'Super Manager'){
+    if (auth.role === 'Super Manager') {
         sideMenu = sideMenuItems
-    }else{
+    } else {
         sideMenu = getSideMenu(sideMenuItems, rolePermission)
     }
 
@@ -76,9 +79,9 @@ export default function SideMenu() {
     })
 
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed.collapseStatus}>
+        <Sider trigger={null} collapsible collapsed={collapse.collapseStatus}>
             <div className='sidemenu'>
-                <div className="sidemenu-logo" >{collapsed.collapseStatus ? 'News' : 'News Delivery System'}</div>
+                <div className="sidemenu-logo" >{collapse.collapseStatus ? 'News' : 'News Delivery System'}</div>
                 <div className='sidemenu-content'>
                     <Menu
                         selectedKeys={selectedKey}
@@ -94,3 +97,7 @@ export default function SideMenu() {
         </Sider >
     )
 }
+
+
+
+

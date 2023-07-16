@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
@@ -8,6 +8,7 @@ import { login } from '../../store/authSlice';
 import './index.css'
 
 export default function Login() {
+  // define input validation rule
   const validator = (_, value) => {
     if (!value) {
       return Promise.reject(new Error('Please input your Information'))
@@ -16,19 +17,15 @@ export default function Login() {
     }
   }
 
-  const [loginQuery] = useLoginMutation()
-
+  // send login query & navigate to previous page
   const navigate = useNavigate()
-  const location = useLocation()
   const dispatch = useDispatch()
-
-  const source = location.state?.pathname || '/'
-
+  const [loginQuery] = useLoginMutation()
   const onFinish = async (value) => {
     const userInfo = await loginQuery(value)
     if (userInfo.data.code === 0) {
       message.success('Login success')
-      navigate(source, { replace: true })
+      navigate(-1, { replace: true })
       dispatch(login({
         username: userInfo.data.data.username,
         role: userInfo.data.data.role,
@@ -54,24 +51,10 @@ export default function Login() {
           }}
           onFinish={onFinish}
         >
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                validator
-              },
-            ]}
-          >
+          <Form.Item name="username" rules={[{ validator }]}>
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                validator
-              },
-            ]}
-          >
+          <Form.Item name="password" rules={[{ validator }]}>
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"

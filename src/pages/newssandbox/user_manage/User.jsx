@@ -3,6 +3,7 @@ import { Divider, Table, Button, Modal, Form, Space, message } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useGetUserListQuery, useRegisterMutation, useDeleteUserMutation, useUpdateUserMutation } from '../../../store/requestApi';
 import UserForm from './UserForm'
+import area from '../../../config/area';
 
 export default function User() {
   // set table column title & index
@@ -10,6 +11,12 @@ export default function User() {
     {
       title: 'Area',
       dataIndex: 'area',
+      filters: [
+        ...area.map(item => ({
+          text: item.area_name,
+          value: item.area_name
+        }))],
+      onFilter: (value, item) => item.area.indexOf(value) === 0,
       render: area => <b>{area}</b>
     },
     {
@@ -61,6 +68,14 @@ export default function User() {
   // connect to new user modal form
   const [form] = Form.useForm()
 
+  // determine whether modal form open for register or update
+  const [user, setUser] = useState({})
+  const showUpdate = (user) => {
+    setUser(user)
+    setCreateUser(true)
+    form.resetFields()
+  }
+
   // send user register/update query & update user list
   const [registerQuery] = useRegisterMutation()
   const [updateQuery] = useUpdateUserMutation()
@@ -71,11 +86,8 @@ export default function User() {
       if (formValue) {
         if (user._id) {
           const updateInfo = await updateQuery(formValue)
-          console.log(formValue)
           if (updateInfo.data.code === 0) {
             message.success('Update success')
-            refetch()
-            isSuccess && setUserList(data.data)
           } else {
             message.error(updateInfo.data.msg)
           }
@@ -83,11 +95,11 @@ export default function User() {
           const registerInfo = await registerQuery(formValue)
           if (registerInfo.data.code === 0) {
             message.success('Register success')
-            setUserList([...userList, registerInfo.data.data])
           } else {
             message.error(registerInfo.data.msg)
           }
         }
+        refetch()
         setCreateUser(false)
       }
     } catch {
@@ -108,18 +120,10 @@ export default function User() {
         if (deleteInfo.data.code === 0) {
           message.success('User Deleted')
           refetch()
-          isSuccess && setUserList(data.data)
         }
       }
     });
   };
-
-  const [user, setUser] = useState({})
-  const showUpdate = (user) => {
-    setUser(user)
-    setCreateUser(true)
-    form.resetFields()
-  }
 
   return (
     <div>

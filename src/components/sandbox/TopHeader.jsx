@@ -16,9 +16,13 @@ export default function TopHeader() {
     } = theme.useToken();
     const { Header } = Layout;
 
+    // get login user info from store
     const auth = useSelector(state => state.auth)
-    const collapsed = useSelector(state => state.collapsed)
 
+    // control sidemenu collapse
+    const collapse = useSelector(state => state.collapse)
+
+    // user avatar drop down (user area, user role, logout option)
     const items = [
         {
             key: '1',
@@ -31,9 +35,9 @@ export default function TopHeader() {
         },
     ];
 
+    // logout click event
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     const onClick = (key) => {
         if (key.key === '2') {
             dispatch(logout());
@@ -45,8 +49,8 @@ export default function TopHeader() {
         <Header style={{ padding: 0, background: colorBgContainer }}>
             <Button
                 type="text"
-                icon={collapsed.collapseStatus ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => dispatch(setCollapsed(!collapsed.collapseStatus))}
+                icon={collapse.collapseStatus ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => dispatch(setCollapsed(!collapse.collapseStatus))}
                 style={{
                     fontSize: '16px',
                     width: 64,

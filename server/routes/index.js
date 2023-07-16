@@ -98,6 +98,7 @@ router.post('/role/add-role', async (req, res) => {
         res.send({ code: 1, msg: 'Something went wrong, please try again' })
     }
 })
+
 router.post('/role/add-permission', async (req, res) => {
     const { role_name, auth_name, menus } = req.body
     try {
