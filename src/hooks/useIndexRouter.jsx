@@ -8,6 +8,8 @@ import Home from '../pages/newssandbox/home/Home'
 import User from '../pages/newssandbox/user_manage/User'
 import Role from '../pages/newssandbox/role_manage/Role'
 import NoPermission from '../pages/newssandbox/no_perssion/NoPermission'
+import Compose from '../pages/newssandbox/news_manage/compose/Compose'
+import Draft from '../pages/newssandbox/news_manage/draft/Draft'
 
 const childrenRoutesMap = [
     {
@@ -19,7 +21,17 @@ const childrenRoutesMap = [
         path: '/role-manage',
         element:
             < Role />
-    }
+    },
+    {
+        path: '/news-manage/compose',
+        element:
+            < Compose />
+    },
+    {
+        path: '/news-manage/draft',
+        element:
+            < Draft />
+    },
 ]
 
 export default function useIndexRouter() {

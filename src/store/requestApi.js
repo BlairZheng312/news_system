@@ -84,6 +84,32 @@ export const requestApi = createApi({
                     }
                 },
             }),
+            addNews: build.mutation({
+                query(news) {
+                    return {
+                        url: 'news/add-news',
+                        method: 'post',
+                        body: news
+                    }
+                },
+            }),
+            getNewsList: build.query({
+                query(arg) {
+                    return {
+                        url: 'news/list',
+                        params:{...arg}
+                    }
+                },
+            }),
+            deleteNews: build.mutation({
+                query(newsId) {
+                    return {
+                        url: 'news/delete',
+                        method: 'post',
+                        body: newsId
+                    }
+                },
+            }),
         }
     }
 })
@@ -97,7 +123,10 @@ export const {
     useGetRoleListQuery,
     useGetRoleQuery,
     useAddRoleMutation,
-    useAddPermissionMutation
+    useAddPermissionMutation,
+    useAddNewsMutation,
+    useGetNewsListQuery,
+    useDeleteNewsMutation
 } = requestApi
 
 export default requestApi

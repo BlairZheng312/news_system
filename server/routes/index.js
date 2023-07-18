@@ -2,6 +2,7 @@ import express from "express"
 import md5 from "blueimp-md5"
 import { UserModel } from "../models/users.js"
 import { RoleModel } from "../models/roles.js"
+import { NewsModel } from "../models/news.js"
 
 const router = express.Router()
 
@@ -122,6 +123,42 @@ router.get('/role/auth', async (req, res) => {
     try {
         const role = await RoleModel.findOne({ role_name })
         res.send({ code: 0, data: role })
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
+router.post('/news/add-news', async (req, res) => {
+    const news = req.body
+    try {
+        const newsFound = await NewsModel.findOne({ title: news.title })
+        if (newsFound) {
+            res.send({ code: 1, msg: 'News title existed, please revise' })
+        } else {
+            const newNews = new NewsModel(news)
+            const addNews = await newNews.save()
+            res.send({ code: 0, data: addNews })
+        }
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
+router.get('/news/list', async (req, res) => {
+    const { author, reviewState } = req.query
+    try {
+        const newsList = await NewsModel.find({ author, reviewState })
+        res.send({ code: 0, data: newsList })
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
+router.post('/news/delete', async (req, res) => {
+    const { newsId } = req.body
+    try {
+        await NewsModel.deleteOne({ _id: newsId })
+        res.send({ code: 0 })
     } catch {
         res.send({ code: 1, msg: 'Something went wrong, please try again' })
     }
