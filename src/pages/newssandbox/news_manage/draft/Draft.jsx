@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Table, Button, Space, Modal, message } from 'antd';
 import { DeleteOutlined, EditOutlined, SendOutlined } from '@ant-design/icons';
@@ -7,12 +7,14 @@ import { useGetNewsListQuery, useDeleteNewsMutation } from '../../../../store/re
 import categoryList from '../../../../config/news_category';
 
 export default function Draft() {
+  const navigate = useNavigate()
+
   // set table column title & index
   const columns = [
     {
       title: 'News Title',
       dataIndex: 'title',
-      render: (title) => <Link>{title}</Link>
+      render: (title, item) => <Link to={`${item._id}`}>{title}</Link>,
     },
     {
       title: 'Author',
@@ -33,6 +35,7 @@ export default function Draft() {
             shape='circle'
             icon={<EditOutlined />}
             style={{ color: '#ef3c00d8' }}
+            onClick={() => { navigate('update') }}
           />
           <Button
             shape='circle'

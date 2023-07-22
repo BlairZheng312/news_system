@@ -164,4 +164,14 @@ router.post('/news/delete', async (req, res) => {
     }
 })
 
+router.get('/news/detail', async (req, res) => {
+    const { newsId } = req.query
+    try {
+        const news = await NewsModel.findOne({ _id: newsId })
+        res.send({ code: 0, data: news })
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
 export default router

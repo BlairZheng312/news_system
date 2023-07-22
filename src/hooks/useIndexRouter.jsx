@@ -10,27 +10,33 @@ import Role from '../pages/newssandbox/role_manage/Role'
 import NoPermission from '../pages/newssandbox/no_perssion/NoPermission'
 import Compose from '../pages/newssandbox/news_manage/compose/Compose'
 import Draft from '../pages/newssandbox/news_manage/draft/Draft'
+import Preview from '../pages/newssandbox/news_manage/draft/Preview'
+import Update from '../pages/newssandbox/news_manage/draft/Update'
 
 const childrenRoutesMap = [
     {
         path: '/user-manage',
-        element:
-            < User />
+        element: < User />
     },
     {
         path: '/role-manage',
-        element:
-            < Role />
+        element: < Role />
     },
     {
         path: '/news-manage/compose',
-        element:
-            < Compose />
+        element: < Compose />
     },
     {
         path: '/news-manage/draft',
-        element:
-            < Draft />
+        element: < Draft />,
+    },
+    {
+        path: '/news-manage/draft/:id',
+        element: < Preview />,
+    },
+    {
+        path: '/news-manage/draft/update',
+        element: < Update />,
     },
 ]
 
@@ -42,7 +48,12 @@ export default function useIndexRouter() {
     const getChildrenRoutes = (childrenRoutesMap, rolePermission) => {
         const childrenRoutes = []
         childrenRoutesMap.forEach(item => {
-            if (rolePermission.indexOf(item.path) !== -1) {
+            let itemArr = item.path.split('/')
+            if(itemArr.length >=4){
+                itemArr = itemArr.slice(0,3)
+            }
+            const itemPath = itemArr.join('/')
+            if (rolePermission.indexOf(itemPath) !== -1) {
                 childrenRoutes.push(item)
             }
         })

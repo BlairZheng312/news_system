@@ -5,6 +5,7 @@ import { Steps, Button, Form, message, notification } from 'antd';
 import { useAddNewsMutation } from '../../../../store/requestApi';
 import NewsInfo from './NewsInfo';
 import NewsContent from './NewsContent';
+import NewsReview from './NewsReview';
 import '../index.css'
 
 export default function Draft() {
@@ -100,6 +101,7 @@ export default function Draft() {
                 <NewsContent getNewsContent={newsContent => setNewsContent(newsContent)} />
             </div>
             <div className={current === 2 ? 'show' : 'hidden'}>
+                <NewsReview news={{...newsInfo,newsContent}}/>
             </div>
             <div className='stepControl'>
                 {current > 0 && <Button onClick={handlePrevious}>Previous</Button>}

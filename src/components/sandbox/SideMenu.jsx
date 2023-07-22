@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Layout, Menu } from 'antd';
 import { useGetRoleQuery } from '../../store/requestApi';
-import sideMenuItems from '../../config/sideMenu';
+import sideMenuItems from '../../config/side_menu';
 import { setPermissionList } from '../../store/permissionSlice';
 import './index.css'
 
@@ -48,10 +48,9 @@ export default function SideMenu() {
                 }
                 else {
                     if (item.children) {
-                        const childmenu = getSideMenu(item.children, rolePermission)
-                        if (childmenu.length > 0) {
-                            item.children = childmenu
-                            sideMenu.push(item)
+                        const newChild = getSideMenu(item.children, rolePermission)
+                        if (newChild.length > 0) {
+                            sideMenu.push({ ...item, children: newChild })
                         }
                     }
                 }
@@ -71,7 +70,7 @@ export default function SideMenu() {
     // resume opened sidemenu
     const selectedKey = [location.pathname]
     let openKey
-    sideMenuItems.forEach(item => {
+    sideMenu.forEach(item => {
         const cItem = item.children?.find(cItem => cItem.key === location.pathname)
         if (cItem) {
             openKey = [item.key]

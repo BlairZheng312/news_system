@@ -110,6 +110,14 @@ export const requestApi = createApi({
                     }
                 },
             }),
+            getNews: build.query({
+                query(newsId) {
+                    return {
+                        url: 'news/detail',
+                        params:{newsId}
+                    }
+                },
+            }),
         }
     }
 })
@@ -126,7 +134,8 @@ export const {
     useAddPermissionMutation,
     useAddNewsMutation,
     useGetNewsListQuery,
-    useDeleteNewsMutation
+    useDeleteNewsMutation,
+    useGetNewsQuery
 } = requestApi
 
 export default requestApi

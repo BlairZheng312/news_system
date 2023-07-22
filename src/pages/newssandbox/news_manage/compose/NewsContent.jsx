@@ -11,7 +11,7 @@ export default function NewsContent(props) {
         <div>
             <Editor
                 editorState={editorState}
-                editorStyle={{border:'1px solid lightgrey', minHeight:'200px', padding: '0px 10px'}}
+                editorStyle={{border:'1px solid lightgrey', minHeight:'200px', padding: '0px 10px', borderRadius: '4px'}}
                 onEditorStateChange={(editorState) => setEditorState(editorState)}
                 onBlur={() => {
                     getNewsContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))

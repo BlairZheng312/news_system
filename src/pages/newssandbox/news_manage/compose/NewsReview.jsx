@@ -1,0 +1,49 @@
+import React from 'react'
+import { Form, Input } from 'antd';
+
+export default function NewsReview(props) {
+    const { title, category, newsContent } = props.news
+    return (
+        <Form
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 20 }}
+            disabled={true}
+        >
+            <Form.Item
+                name="title"
+                label='News Title'
+            >
+                <Input placeholder={title} />
+            </Form.Item>
+            <Form.Item
+                name="category"
+                label="News Category"
+            >
+                <Input placeholder={category} />
+            </Form.Item>
+            <Form.Item
+                name="content"
+                label="News Content"
+            >
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: newsContent
+                    }}
+                    style={{
+                        border: '1px #d9d9d9 solid',
+                        borderRadius: '6px',
+                        padding: '4px 11px',
+                        color: 'rgba(0, 0, 0, 0.25)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                        cursor: 'not-allowed',
+                        opacity: '1',
+                        minHeight: '150px',
+                        overflow: 'auto',
+                        width: '100%',
+                        display:'inline-block',
+                    }}>
+                </div>
+            </Form.Item>
+        </Form >
+    )
+}
