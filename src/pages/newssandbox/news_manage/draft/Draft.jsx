@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Table, Button, Space, Modal, message } from 'antd';
+import { Table, Button, Space, Modal, message, notification } from 'antd';
 import { DeleteOutlined, EditOutlined, SendOutlined } from '@ant-design/icons';
-import { useGetNewsListQuery, useDeleteNewsMutation } from '../../../../store/requestApi';
+import { useGetNewsListQuery, useDeleteNewsMutation, useAddNewsMutation } from '../../../../store/requestApi';
 import categoryList from '../../../../config/news_category';
 
 export default function Draft() {
@@ -35,18 +35,21 @@ export default function Draft() {
             shape='circle'
             icon={<EditOutlined />}
             style={{ color: '#ef3c00d8' }}
-            onClick={() => { navigate('update') }}
+            onClick={() => {
+              navigate('update', { state: { news } })
+            }}
           />
           <Button
             shape='circle'
             icon={<DeleteOutlined />}
-            onClick={() => showDeleteConfirm(news)}
+            onClick={() => showConfirm({ news, submit: false })}
             style={{ color: '#ef3c00d8' }}
           />
           <Button
             shape='circle'
             icon={<SendOutlined />}
             style={{ color: '#ef3c00d8' }}
+            onClick={() => { showConfirm({ news, submit: true }) }}
           />
         </Space>
       ),
@@ -61,21 +64,45 @@ export default function Draft() {
     isSuccess && setNewsList(data.data)
   }, [isSuccess, data]);
 
-  // send user delete query & refetch user list
+  // send user delete/submit query & refetch user list
   const [modal, contextHolder] = Modal.useModal();
   const [deleteQuery] = useDeleteNewsMutation()
-  const showDeleteConfirm = (news) => {
+  const [addNews] = useAddNewsMutation()
+  const showConfirm = ({ news, submit }) => {
     modal.confirm({
-      title: `Confirm to delete ${news.title}?`,
+      title: `Confirm to ${submit ? 'submit' : 'delete'} ${news.title}?`,
       okText: 'Confirm',
       cancelText: 'Cancel',
       async onOk() {
-        const deleteInfo = await deleteQuery({ newsId: news._id })
-        if (deleteInfo.data.code === 0) {
-          message.success('News Deleted')
-          refetch()
+        if (!submit) {
+          const deleteInfo = await deleteQuery({ newsId: news._id })
+          if (deleteInfo.data.code === 0) {
+            message.success('News Deleted')
+          }
+        } else {
+          const submitInfo = await addNews({
+            _id: news._id,
+            reviewState: 1
+          })
+          if (submitInfo.data.code === 0) {
+            openNotification()
+          } else {
+            message.error(news.data.msg)
+          }
         }
+        refetch()
       }
+    });
+  };
+
+  // open notification for news submit
+  const openNotification = () => {
+    notification.open({
+      message: 'Notification',
+      description: 'News submitted successfully, please wait for further review',
+      placement: 'bottomRight',
+      duration: 3,
+      style: { border: '1px solid #fbb215', zIndex: '100' }
     });
   };
 
@@ -88,6 +115,7 @@ export default function Draft() {
         pagination={{ defaultPageSize: 4 }}
       />
       {contextHolder}
+      {/* {submitContextHolder} */}
     </div>
   );
 }

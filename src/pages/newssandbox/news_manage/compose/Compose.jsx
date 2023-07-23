@@ -8,15 +8,19 @@ import NewsContent from './NewsContent';
 import NewsReview from './NewsReview';
 import '../index.css'
 
-export default function Draft() {
+export default function Draft(props) {
+    // accept saved news for news update
+    const { news: newsOrigin } = props
+
     // control current step
     const [current, setCurrent] = useState(0)
 
     // collect news info (title & category)
     const [form] = Form.useForm()
+    const [newsInfo, setNewsInfo] = useState(null)
 
-    const [newsInfo, setNewsInfo] = useState({})
-    const [newsContent, setNewsContent] = useState('')
+    // collect news info (content)
+    const [newsContent, setNewsContent] = useState(newsOrigin ? newsOrigin.content : '')
 
     // handle previous/next button click event
     const handleNext = async () => {
@@ -34,7 +38,6 @@ export default function Draft() {
             setCurrent(current + 1)
         }
     }
-
     const handlePrevious = () => {
         setCurrent(current - 1)
     }
@@ -45,6 +48,7 @@ export default function Draft() {
     const navigate = useNavigate()
     const handleFinish = async (finishCode) => {
         const news = await addNews({
+            _id: newsOrigin ? newsOrigin._id : null,
             title: newsInfo.title,
             category: newsInfo.category,
             content: newsContent,
@@ -63,6 +67,8 @@ export default function Draft() {
             message.error(news.data.msg)
         }
     }
+
+    // open notification for news save/submit
     const openNotification = (finishCode) => {
         notification.open({
             message: 'Notification',
@@ -70,7 +76,7 @@ export default function Draft() {
                 'Draft saved successfully, please check in the draft box' :
                 'News submitted successfully, please wait for further review'}`,
             placement: 'bottomRight',
-            duration:3,
+            duration: 3,
             style: { border: '1px solid #fbb215', zIndex: '100' }
         });
     };
@@ -95,13 +101,13 @@ export default function Draft() {
                 ]}
             />
             <div className={current === 0 ? 'show' : 'hidden'}>
-                <NewsInfo form={form} />
+                <NewsInfo form={form} news={newsOrigin} />
             </div>
             <div className={current === 1 ? 'show' : 'hidden'}>
-                <NewsContent getNewsContent={newsContent => setNewsContent(newsContent)} />
+                <NewsContent news={newsOrigin} getNewsContent={newsContent => setNewsContent(newsContent)} />
             </div>
             <div className={current === 2 ? 'show' : 'hidden'}>
-                <NewsReview news={{...newsInfo,newsContent}}/>
+                <NewsReview news={{ ...newsInfo, newsContent }} />
             </div>
             <div className='stepControl'>
                 {current > 0 && <Button onClick={handlePrevious}>Previous</Button>}
@@ -112,7 +118,5 @@ export default function Draft() {
                 {current < 2 && <Button onClick={handleNext} type='primary'>Next</Button>}
             </div>
         </>
-
-
     )
 }

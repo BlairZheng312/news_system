@@ -1,8 +1,11 @@
 import React from 'react'
 import { Form, Input } from 'antd';
+import categoryList from '../../../../config/news_category';
 
 export default function NewsReview(props) {
+    // accept news info for news review before save/submit
     const { title, category, newsContent } = props.news
+
     return (
         <Form
             labelCol={{ span: 4 }}
@@ -19,7 +22,7 @@ export default function NewsReview(props) {
                 name="category"
                 label="News Category"
             >
-                <Input placeholder={category} />
+                <Input placeholder={category && categoryList.filter(item => item.id === +category)[0].name} />
             </Form.Item>
             <Form.Item
                 name="content"
@@ -40,7 +43,7 @@ export default function NewsReview(props) {
                         minHeight: '150px',
                         overflow: 'auto',
                         width: '100%',
-                        display:'inline-block',
+                        display: 'inline-block',
                     }}>
                 </div>
             </Form.Item>
