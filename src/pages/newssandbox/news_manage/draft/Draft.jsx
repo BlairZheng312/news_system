@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Table, Button, Space, Modal, message, notification } from 'antd';
+import { Table, Button, Space, Modal, message } from 'antd';
 import { DeleteOutlined, EditOutlined, SendOutlined } from '@ant-design/icons';
 import { useGetNewsListQuery, useDeleteNewsMutation, useAddNewsMutation } from '../../../../store/requestApi';
+import useNotification from '../../../../hooks/useNotification';
 import categoryList from '../../../../config/news_category';
 
 export default function Draft() {
@@ -12,7 +13,7 @@ export default function Draft() {
   // set table column title & index
   const columns = [
     {
-      title: 'News Title',
+      title: 'Title',
       dataIndex: 'title',
       render: (title, item) => <Link to={`${item._id}`}>{title}</Link>,
     },
@@ -21,7 +22,7 @@ export default function Draft() {
       dataIndex: 'author',
     },
     {
-      title: 'News Category',
+      title: 'Category',
       dataIndex: 'category',
       render: (category) => {
         return categoryList.filter(item => item.id === +category)[0].name
@@ -35,9 +36,7 @@ export default function Draft() {
             shape='circle'
             icon={<EditOutlined />}
             style={{ color: '#ef3c00d8' }}
-            onClick={() => {
-              navigate('update', { state: { news } })
-            }}
+            onClick={() => { navigate('update', { state: { news } }) }}
           />
           <Button
             shape='circle'
@@ -56,10 +55,12 @@ export default function Draft() {
     },
   ];
 
-  // fetch news draft list from db
+  // fetch news list from db
+  // user can only see their own news (author === username)
+  // news states is draft (publishState ===0)
   const [newsList, setNewsList] = useState([])
   const auth = useSelector(state => state.auth)
-  const { data, isSuccess, refetch } = useGetNewsListQuery({ author: auth.username, reviewState: 0 })
+  const { data, isSuccess, refetch } = useGetNewsListQuery({ author: auth.username, publishState: 0 })
   useEffect(() => {
     isSuccess && setNewsList(data.data)
   }, [isSuccess, data]);
@@ -68,6 +69,7 @@ export default function Draft() {
   const [modal, contextHolder] = Modal.useModal();
   const [deleteQuery] = useDeleteNewsMutation()
   const [addNews] = useAddNewsMutation()
+  const { openNotification } = useNotification()
   const showConfirm = ({ news, submit }) => {
     modal.confirm({
       title: `Confirm to ${submit ? 'submit' : 'delete'} ${news.title}?`,
@@ -82,27 +84,16 @@ export default function Draft() {
         } else {
           const submitInfo = await addNews({
             _id: news._id,
-            reviewState: 1
+            publishState: 1
           })
           if (submitInfo.data.code === 0) {
-            openNotification()
+            openNotification(1)
           } else {
             message.error(news.data.msg)
           }
         }
         refetch()
       }
-    });
-  };
-
-  // open notification for news submit
-  const openNotification = () => {
-    notification.open({
-      message: 'Notification',
-      description: 'News submitted successfully, please wait for further review',
-      placement: 'bottomRight',
-      duration: 3,
-      style: { border: '1px solid #fbb215', zIndex: '100' }
     });
   };
 
@@ -115,7 +106,6 @@ export default function Draft() {
         pagination={{ defaultPageSize: 4 }}
       />
       {contextHolder}
-      {/* {submitContextHolder} */}
     </div>
   );
 }

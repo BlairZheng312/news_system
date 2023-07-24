@@ -38,25 +38,15 @@ const sideMenuItems = [
                 key: '/news-manage/draft'
             },
             {
-                label: 'Category',
-                key: '/news-manage/category'
+                label: 'Submitted',
+                key: '/news-manage/submitted'
             }
         ]
     },
     {
         label: 'Review',
         key: '/review-manage',
-        icon: <CoffeeOutlined />,
-        children: [
-            {
-                label: 'To Review',
-                key: '/review-manage/review'
-            },
-            {
-                label: 'Review List',
-                key: '/review-manage/list'
-            }
-        ]
+        icon: <CoffeeOutlined />
     },
     {
         label: 'Publish',

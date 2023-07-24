@@ -27,6 +27,5 @@ export default function useAutoLogout() {
             clearTimeout(timer)
         }
     }, [auth, dispatch])
-
 }
 

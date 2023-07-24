@@ -118,6 +118,14 @@ export const requestApi = createApi({
                     }
                 },
             }),
+            getReviewList: build.query({
+                query(arg) {
+                    return {
+                        url: 'review/list',
+                        params:{...arg}
+                    }
+                },
+            }),
         }
     }
 })
@@ -135,7 +143,8 @@ export const {
     useAddNewsMutation,
     useGetNewsListQuery,
     useDeleteNewsMutation,
-    useGetNewsQuery
+    useGetNewsQuery,
+    useGetReviewListQuery
 } = requestApi
 
 export default requestApi

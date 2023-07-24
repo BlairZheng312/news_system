@@ -7,11 +7,10 @@ const newsSchema = new Schema({
     author: {type: String, required: true}, 
     author_role: {type: String, required: true}, 
     area: {type: String, required: true},
-    reviewState: {type: Number, required: true},
     publishState: {type: Number, required: true},
+    publishTime: Number, 
     view: Number,
     star: Number,
-    submit_time: Number, 
 });
 
 const NewsModel = mongoose.model('news', newsSchema);

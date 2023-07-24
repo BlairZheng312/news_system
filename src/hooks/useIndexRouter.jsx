@@ -12,6 +12,8 @@ import Compose from '../pages/newssandbox/news_manage/compose/Compose'
 import Draft from '../pages/newssandbox/news_manage/draft/Draft'
 import Preview from '../pages/newssandbox/news_manage/draft/Preview'
 import Update from '../pages/newssandbox/news_manage/draft/Update'
+import Submit from '../pages/newssandbox/news_manage/submission/Submit'
+import Review from '../pages/newssandbox/review_manage/Review'
 
 const childrenRoutesMap = [
     {
@@ -37,6 +39,14 @@ const childrenRoutesMap = [
     {
         path: '/news-manage/draft/update',
         element: < Update />,
+    },
+    {
+        path: '/news-manage/submitted',
+        element: < Submit />,
+    },
+    {
+        path: '/review-manage',
+        element: < Review />
     },
 ]
 

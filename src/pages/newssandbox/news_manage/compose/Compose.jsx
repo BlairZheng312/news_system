@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
-import { Steps, Button, Form, message, notification } from 'antd';
+import { Steps, Button, Form, message } from 'antd';
 import { useAddNewsMutation } from '../../../../store/requestApi';
+import useNotification from '../../../../hooks/useNotification';
 import NewsInfo from './NewsInfo';
 import NewsContent from './NewsContent';
 import NewsReview from './NewsReview';
@@ -43,6 +44,7 @@ export default function Draft(props) {
     }
 
     // handle news save/submit
+    const { openNotification } = useNotification()
     const [addNews] = useAddNewsMutation()
     const auth = useSelector(state => state.auth)
     const navigate = useNavigate()
@@ -55,31 +57,18 @@ export default function Draft(props) {
             author: auth.username,
             author_role: auth.role,
             area: auth.area,
-            reviewState: finishCode,
-            publishState: 0,
+            publishState: finishCode,
+            publishTime: null,
             view: 0,
             star: 0
         })
         if (news.data.code === 0) {
             openNotification(finishCode)
-            navigate(`${finishCode ? '/news-manage/category' : '/news-manage/draft'}`)
+            navigate(`${finishCode ? '/news-manage/submitted' : '/news-manage/draft'}`)
         } else {
             message.error(news.data.msg)
         }
     }
-
-    // open notification for news save/submit
-    const openNotification = (finishCode) => {
-        notification.open({
-            message: 'Notification',
-            description: `${finishCode === 0 ?
-                'Draft saved successfully, please check in the draft box' :
-                'News submitted successfully, please wait for further review'}`,
-            placement: 'bottomRight',
-            duration: 3,
-            style: { border: '1px solid #fbb215', zIndex: '100' }
-        });
-    };
 
     return (
         <>

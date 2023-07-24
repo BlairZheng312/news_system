@@ -4,6 +4,7 @@ import { Descriptions, Button, Divider } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useGetNewsQuery } from '../../../../store/requestApi';
 import categoryList from '../../../../config/news_category';
+import publishMap from '../../../../config/review_publish';
 
 export default function Preview() {
   // get news path from routing path
@@ -18,7 +19,7 @@ export default function Preview() {
   }, [isSuccess, data])
 
   const navigate = useNavigate()
-  
+
   return (
     <>
       {newsDetail &&
@@ -30,8 +31,8 @@ export default function Preview() {
             <Descriptions.Item label="Author">{newsDetail.author}</Descriptions.Item>
             <Descriptions.Item label="Category">{categoryList.filter(item => item.id === +newsDetail.category)[0].name}</Descriptions.Item>
             <Descriptions.Item label="Area">{newsDetail.area}</Descriptions.Item>
-            <Descriptions.Item label="Review Status">{newsDetail.reviewState}</Descriptions.Item>
-            <Descriptions.Item label="Publish Status">{newsDetail.publishState}</Descriptions.Item>
+            <Descriptions.Item label="Publish Status">{publishMap[newsDetail.publishState][0]}</Descriptions.Item>
+            <Descriptions.Item label="Publish Time">{newsDetail.publishTime? new Date(newsDetail.publishTime).toDateString(): '-'}</Descriptions.Item>
             <Descriptions.Item label="Views">{newsDetail.view}</Descriptions.Item>
             <Descriptions.Item label="Likes">{newsDetail.star}</Descriptions.Item>
           </Descriptions >

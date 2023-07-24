@@ -16,10 +16,8 @@ if (!superManager) {
             '/news-manage',
             '/news-manage/compose',
             '/news-manage/draft',
-            '/news-manage/category',
+            '/news-manage/submitted',
             '/review-manage',
-            '/review-manage/review',
-            '/review-manage/list',
             '/publish-manage',
             '/publish-manage/publish',
             '/publish-manage/withdraw'

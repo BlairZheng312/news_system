@@ -130,17 +130,10 @@ router.get('/role/auth', async (req, res) => {
 
 router.post('/news/add-news', async (req, res) => {
     const news = req.body
-    console.log(news)
     try {
         if (news._id) {
-            if (news.reviewState === 1) {
-                const newsFound = await NewsModel.findOneAndUpdate({ _id: news._id }, { reviewState: news.reviewState }, { new: true })
-                res.send({ code: 0, data: newsFound })
-            } else {
-                const { title, category, content } = news
-                const newsFound = await NewsModel.findOneAndUpdate({ _id: news._id }, { title, category, content }, { new: true })
-                res.send({ code: 0, data: newsFound })
-            }
+            const newsFound = await NewsModel.findOneAndUpdate({ _id: news._id }, news, { new: true })
+            res.send({ code: 0, data: newsFound })
         } else {
             const newsFound = await NewsModel.findOne({ title: news.title })
             if (newsFound) {
@@ -157,9 +150,29 @@ router.post('/news/add-news', async (req, res) => {
 })
 
 router.get('/news/list', async (req, res) => {
-    const { author, reviewState } = req.query
+    const { author, publishState } = req.query
     try {
-        const newsList = await NewsModel.find({ author, reviewState })
+        let newsList
+        if (publishState) {
+            newsList = await NewsModel.find({ author, publishState })
+        } else {
+            newsList = await NewsModel.find({ author, publishState: { '$ne': 0 } })
+        }
+        res.send({ code: 0, data: newsList })
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
+router.get('/review/list', async (req, res) => {
+    const { area, publishState } = req.query
+    try {
+        let newsList
+        if (area === 'Global') {
+            newsList = await NewsModel.find({ publishState })
+        } else {
+            newsList = await NewsModel.find({ area, publishState })
+        }
         res.send({ code: 0, data: newsList })
     } catch {
         res.send({ code: 1, msg: 'Something went wrong, please try again' })
