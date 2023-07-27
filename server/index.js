@@ -18,9 +18,7 @@ if (!superManager) {
             '/news-manage/draft',
             '/news-manage/submitted',
             '/review-manage',
-            '/publish-manage',
-            '/publish-manage/publish',
-            '/publish-manage/withdraw'
+            '/publish-manage'
         ],
         auth_time: Date.now(),
         auth_name: null

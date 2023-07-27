@@ -1,10 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
+import { setLoading } from './loadingSlice'
+
+// set loading state to true before sending request
+// set loading state to false after data fetch is done
+const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' })
+const baseQueryWithLoading = async (args, api, extraOptions) => {
+    api.dispatch(setLoading(true))
+    const result = await baseQuery(args, api, extraOptions)
+    if (result) {
+        api.dispatch(setLoading(false))
+    }
+    return result
+}
 
 export const requestApi = createApi({
     reducerPath: 'requestApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:3000/api'
-    }),
+    baseQuery: baseQueryWithLoading,
     keepUnusedDataFor: 0,
     endpoints(build) {
         return {
@@ -62,7 +73,7 @@ export const requestApi = createApi({
                 query(role_name) {
                     return {
                         url: 'role/auth',
-                        params:{role_name}
+                        params: { role_name }
                     }
                 },
             }),
@@ -97,7 +108,7 @@ export const requestApi = createApi({
                 query(arg) {
                     return {
                         url: 'news/list',
-                        params:{...arg}
+                        params: { ...arg }
                     }
                 },
             }),
@@ -114,7 +125,7 @@ export const requestApi = createApi({
                 query(newsId) {
                     return {
                         url: 'news/detail',
-                        params:{newsId}
+                        params: { newsId }
                     }
                 },
             }),
@@ -122,7 +133,7 @@ export const requestApi = createApi({
                 query(arg) {
                     return {
                         url: 'review/list',
-                        params:{...arg}
+                        params: { ...arg }
                     }
                 },
             }),

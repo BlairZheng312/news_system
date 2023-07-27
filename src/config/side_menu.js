@@ -51,17 +51,7 @@ const sideMenuItems = [
     {
         label: 'Publish',
         key: '/publish-manage',
-        icon: <EyeOutlined />,
-        children: [
-            {
-                label: 'To Publish',
-                key: '/publish-manage/publish'
-            },
-            {
-                label: 'To Withdraw',
-                key: '/publish-manage/withdraw'
-            }
-        ]
+        icon: <EyeOutlined />
     },
 ]
 

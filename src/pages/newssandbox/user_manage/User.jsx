@@ -58,6 +58,8 @@ export default function User() {
   // fetch user list from db
   const [userList, setUserList] = useState([])
   const { data, isSuccess, refetch } = useGetUserListQuery()
+
+  // isSuccess && setLoading(false)
   useEffect(() => {
     isSuccess && setUserList(data.data)
   }, [isSuccess, data]);

@@ -5,7 +5,7 @@ const publishMap = {
     2: ['Failed review', 'red'],
     3: ['Ready to publish', 'blue'],
     4: ['Published', 'green'],
-    5: ['Withdrawn', 'orange']
+    5: ['Discontinued', 'orange']
 }
 
 export default publishMap

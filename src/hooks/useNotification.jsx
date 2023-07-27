@@ -2,7 +2,7 @@ import { notification } from 'antd';
 
 export default function useNotification() {
     // open notification for news action
-    // 0-save 1-submit 2-withdraw 3-publish
+    // 0-save 1-submit 2-withdraw 3-publish 4-discontinue 5-delete
     const openNotification = (finishCode) => {
         let description
         switch (finishCode) {
@@ -17,6 +17,12 @@ export default function useNotification() {
                 break
             case 3:
                 description = 'News published successfully, please check in the news list'
+                break
+            case 4:
+                description = 'News discontinued, you can delete or re-publish the news'
+                break
+            case 5:
+                description = 'News deleted successfully'
                 break
             default:
                 description = ''

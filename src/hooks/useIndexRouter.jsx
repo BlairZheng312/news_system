@@ -14,6 +14,7 @@ import Preview from '../pages/newssandbox/news_manage/draft/Preview'
 import Update from '../pages/newssandbox/news_manage/draft/Update'
 import Submit from '../pages/newssandbox/news_manage/submission/Submit'
 import Review from '../pages/newssandbox/review_manage/Review'
+import Publish from '../pages/newssandbox/publish_manage/Publish'
 
 const childrenRoutesMap = [
     {
@@ -23,6 +24,10 @@ const childrenRoutesMap = [
     {
         path: '/role-manage',
         element: < Role />
+    },
+    {
+        path: '/news-manage',
+        element: < Compose />
     },
     {
         path: '/news-manage/compose',
@@ -47,6 +52,10 @@ const childrenRoutesMap = [
     {
         path: '/review-manage',
         element: < Review />
+    },
+    {
+        path: '/publish-manage',
+        element: < Publish />
     },
 ]
 

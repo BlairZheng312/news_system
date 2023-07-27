@@ -107,3 +107,7 @@ a{
 a:hover{
   color: #fbb215
 }
+
+.ant-btn{
+  padding: 2px 10px;
+}

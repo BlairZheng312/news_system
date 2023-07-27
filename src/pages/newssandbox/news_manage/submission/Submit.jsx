@@ -31,6 +31,14 @@ export default function Draft() {
     {
       title: 'Publish Status',
       dataIndex: 'publishState',
+      filters: [
+        ...Object.entries(publishMap)
+          .filter(item => item[0] > 0)
+          .map(item => ({
+            text: item[1][0],
+            value: +item[0]
+          }))],
+      onFilter: (value, item) => item.publishState === value,
       render: (publishState) => {
         return <Tag color={publishMap[publishState][1]}>{publishMap[publishState][0]}</Tag>
       }
@@ -69,7 +77,7 @@ export default function Draft() {
     isSuccess && setNewsList(data.data)
   }, [isSuccess, data]);
 
-  // withdraw/publish news from review to draft
+  // withdraw news from review to draft or publish news
   const [modal, contextHolder] = Modal.useModal()
   const [addNews] = useAddNewsMutation()
   const { openNotification } = useNotification()

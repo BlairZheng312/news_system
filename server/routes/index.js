@@ -169,9 +169,9 @@ router.get('/review/list', async (req, res) => {
     try {
         let newsList
         if (area === 'Global') {
-            newsList = await NewsModel.find({ publishState })
+            newsList = await NewsModel.find({ publishState: { $in: [...publishState] } })
         } else {
-            newsList = await NewsModel.find({ area, publishState })
+            newsList = await NewsModel.find({ area, publishState: { $in: [...publishState] } })
         }
         res.send({ code: 0, data: newsList })
     } catch {
