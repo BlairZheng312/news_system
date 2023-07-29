@@ -31,23 +31,20 @@ export default function Draft() {
     {
       title: 'Action',
       render: (news) => (
-        <Space size="middle" >
+        <Space size="middle">
           <Button
             shape='circle'
             icon={<EditOutlined />}
-            style={{ color: '#ef3c00d8' }}
             onClick={() => { navigate('update', { state: { news } }) }}
           />
           <Button
             shape='circle'
             icon={<DeleteOutlined />}
             onClick={() => showConfirm({ news, submit: false })}
-            style={{ color: '#ef3c00d8' }}
           />
           <Button
             shape='circle'
             icon={<SendOutlined />}
-            style={{ color: '#ef3c00d8' }}
             onClick={() => { showConfirm({ news, submit: true }) }}
           />
         </Space>

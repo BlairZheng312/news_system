@@ -48,25 +48,21 @@ export default function Draft() {
         {
             title: 'Action',
             render: (news) => (
-                <Space size="middle" >
+                <Space size="middle" className='news-action'>
                     {(news.publishState === 3) &&
                         <Button
-                            style={{ color: '#ef3c00d8', width: '100px' }}
                             onClick={() => { handlePublish(news) }}
                         >Publish</Button>}
                     {(news.publishState === 4) &&
                         <Button
-                            style={{ color: '#ef3c00d8', width: '100px' }}
                             onClick={() => { handleDiscontinue(news) }}
                         >Discontinue</Button>}
                     {(news.publishState === 5) &&
                         <>
                             <Button
-                                style={{ color: '#ef3c00d8', width: '100px' }}
                                 onClick={() => { handleDelete(news) }}
                             >Delete</Button>
                             <Button
-                                style={{ color: '#ef3c00d8', width: '100px' }}
                                 onClick={() => { handlePublish(news) }}
                             >Re-Publish</Button>
                         </>

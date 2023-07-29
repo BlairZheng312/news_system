@@ -5,7 +5,7 @@ import { Layout, Menu } from 'antd';
 import { useGetRoleQuery } from '../../store/requestApi';
 import sideMenuItems from '../../config/side_menu';
 import { setPermissionList } from '../../store/permissionSlice';
-import './index.css'
+import './index.scss'
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -86,7 +86,7 @@ export default function SideMenu() {
                         selectedKeys={selectedKey}
                         defaultOpenKeys={openKey}
                         mode="inline"
-                        theme="dark"
+                        theme="light"
                         items={sideMenu.map(item => getItem(item.label, item.key, item.icon, item.children)
                         )}
                         onClick={(e) => { navigate(e.key) }}

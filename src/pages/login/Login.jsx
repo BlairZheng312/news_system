@@ -5,7 +5,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
 import { useLoginMutation } from '../../store/requestApi';
 import { login } from '../../store/authSlice';
-import './index.css'
+import './index.scss'
 
 export default function Login() {
   // define input validation rule

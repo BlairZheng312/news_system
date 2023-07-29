@@ -199,4 +199,21 @@ router.get('/news/detail', async (req, res) => {
     }
 })
 
+router.get('/news/sort', async (req, res) => {
+    const { sortIndex } = req.query
+    let news
+    try {
+        if (sortIndex) {
+            const sortObj = {}
+            sortObj[sortIndex] = -1
+            news = await NewsModel.find({ publishState: 4 }).sort(sortObj).limit(6)
+        } else {
+            news = await NewsModel.find({ publishState: 4 })
+        }
+        res.send({ code: 0, data: news })
+    } catch {
+        res.send({ code: 1, msg: 'Something went wrong, please try again' })
+    }
+})
+
 export default router

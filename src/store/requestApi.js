@@ -137,6 +137,14 @@ export const requestApi = createApi({
                     }
                 },
             }),
+            getNewsByVisit: build.query({
+                query(sortIndex) {
+                    return {
+                        url: 'news/sort',
+                        params: {sortIndex}
+                    }
+                },
+            }),
         }
     }
 })
@@ -155,7 +163,8 @@ export const {
     useGetNewsListQuery,
     useDeleteNewsMutation,
     useGetNewsQuery,
-    useGetReviewListQuery
+    useGetReviewListQuery,
+    useGetNewsByVisitQuery
 } = requestApi
 
 export default requestApi

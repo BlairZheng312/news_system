@@ -36,13 +36,11 @@ export default function Review() {
           <Button
             shape='circle'
             icon={<CloseOutlined />}
-            style={{ color: '#ef3c00d8' }}
             onClick={() => { showConfirm({ news, pass: false }) }}
           />
           <Button
             shape='circle'
             icon={<CheckOutlined />}
-            style={{ color: '#ef3c00d8' }}
             onClick={() => { showConfirm({ news, pass: true }) }}
           />
         </Space>

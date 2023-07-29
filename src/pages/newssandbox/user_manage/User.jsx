@@ -40,14 +40,12 @@ export default function User() {
             shape='circle'
             icon={<EditOutlined />}
             onClick={() => { showUpdate(user) }}
-            style={{ color: '#ef3c00d8' }}
             disabled={user.username === 'Admin'}
           />
           <Button
             shape='circle'
             icon={<DeleteOutlined />}
             onClick={() => { showDeleteConfirm(user) }}
-            style={{ color: '#ef3c00d8' }}
             disabled={user.username === 'Admin'}
           />
         </Space>

@@ -7,7 +7,6 @@ import useNotification from '../../../../hooks/useNotification';
 import NewsInfo from './NewsInfo';
 import NewsContent from './NewsContent';
 import NewsReview from './NewsReview';
-import '../index.css'
 
 export default function Draft(props) {
     // accept saved news for news update
@@ -98,7 +97,7 @@ export default function Draft(props) {
             <div className={current === 2 ? 'show' : 'hidden'}>
                 <NewsReview news={{ ...newsInfo, newsContent }} />
             </div>
-            <div className='stepControl'>
+            <div className='step-control news-action'>
                 {current > 0 && <Button onClick={handlePrevious}>Previous</Button>}
                 {current === 2 && <>
                     <Button onClick={() => handleFinish(0)} type='primary'>Save</Button>

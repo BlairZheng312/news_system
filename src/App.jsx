@@ -12,12 +12,24 @@ export default function App() {
     <ConfigProvider
       theme={{
         token: {
+          // color for the main theme (including primary button)
           colorPrimary: '#fbb215',
+
+          // color for link & link hover
+          colorLink: '#ef3c00d8',
+          colorLinkHover: '#fbb215',
+
+          // color for content layout
+          colorBgLayout: 'black'
         },
         components: {
           Button: {
-            colorLinkHover: '#ef3c00d8',
+            // color for default button
+            colorText: '#ef3c00d8',
+
+            // color for link button (used in filter reset)
             colorLink: '#fbb215',
+            colorLinkHover: '#ef3c00d8',
           }
         }
       }}

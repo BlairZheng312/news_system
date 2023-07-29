@@ -1,0 +1,30 @@
+.step-control {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+
+    Button {
+        margin-left: 20px;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    margin-top: 30px;
+}
+
+.news-action Button {
+    width: 100px;
+}
+
+.content{
+    margin: 24px 16px;
+    padding: 24px;
+    min-height: 280;
+    background-color: white;
+    overflow: auto;
+    border-radius: 8px;
+}

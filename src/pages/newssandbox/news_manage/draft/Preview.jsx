@@ -34,7 +34,7 @@ export default function Preview() {
             <Descriptions.Item label="Publish Status">{publishMap[newsDetail.publishState][0]}</Descriptions.Item>
             <Descriptions.Item label="Publish Time">{newsDetail.publishTime? new Date(newsDetail.publishTime).toDateString(): '-'}</Descriptions.Item>
             <Descriptions.Item label="Views">{newsDetail.view}</Descriptions.Item>
-            <Descriptions.Item label="Likes">{newsDetail.star}</Descriptions.Item>
+            <Descriptions.Item label="Stars">{newsDetail.star}</Descriptions.Item>
           </Descriptions >
           <div
             dangerouslySetInnerHTML={{

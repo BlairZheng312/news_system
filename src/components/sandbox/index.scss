@@ -1,0 +1,36 @@
+$color: #e2edfd;
+
+.sidemenu {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    background-color: $color;
+}
+
+.sidemenu-logo {
+    background-color: black;
+    line-height: 64px;
+    color: #ef3c00d8;
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.sidemenu-content {
+    flex: 1;
+    overflow: auto;
+}
+
+.top-header {
+    padding: 0;
+    background-color: $color;
+}
+
+.ant-menu-light,
+.ant-menu-light>.ant-menu {
+    background-color: $color;
+}
+
+.ant-menu-light .ant-menu-item-selected {
+    background-color: white;
+}

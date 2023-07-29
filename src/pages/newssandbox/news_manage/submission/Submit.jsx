@@ -46,20 +46,17 @@ export default function Draft() {
     {
       title: 'Action',
       render: (news) => (
-        <Space size="middle" >
+        <Space size="middle" className='news-action'>
           {(news.publishState === 1) &&
             <Button
-              style={{ color: '#ef3c00d8', width: '100px' }}
               onClick={() => { handleWithdrawOrPublish({ news, withdraw: true }) }}
             >Withdraw</Button>}
           {(news.publishState === 2) &&
             <Button
-              style={{ color: '#ef3c00d8', width: '100px' }}
               onClick={() => { navigate('/news-manage/draft/update', { state: { news } }) }}
             >Modify</Button>}
           {(news.publishState === 3) &&
             <Button
-              style={{ color: '#ef3c00d8', width: '100px' }}
               onClick={() => { handleWithdrawOrPublish({ news, withdraw: false }) }}
             >Publish</Button>}
         </Space>

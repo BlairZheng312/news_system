@@ -5,15 +5,15 @@ import { Layout, Button, theme, Dropdown, Avatar } from 'antd';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UserOutlined,
 } from '@ant-design/icons';
 import { logout } from '../../store/authSlice';
 import { setCollapsed } from '../../store/collapseSlice';
 
 export default function TopHeader() {
     const {
-        token: { colorBgContainer },
+        token: { colorLink }
     } = theme.useToken();
+
     const { Header } = Layout;
 
     // get login user info from store
@@ -46,7 +46,7 @@ export default function TopHeader() {
     };
 
     return (
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header className='top-header'>
             <Button
                 type="text"
                 icon={collapse.collapseStatus ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -59,17 +59,12 @@ export default function TopHeader() {
             />
             <div style={{ float: 'right', marginRight: '24px' }}>
                 <span style={{ padding: '10px' }}>Welcome
-                    <span style={{ color: '#ef3c00d8' }}>
+                    <span style={{ color: colorLink }}>
                         {' ' + auth.username}
                     </span>
                 </span>
-                <Dropdown
-                    menu={{
-                        items,
-                        onClick
-                    }}
-                >
-                    <Avatar size={36} icon={<UserOutlined style={{ color: '#ef3c00d8' }} color={'white'} />} />
+                <Dropdown menu={{ items, onClick }}>
+                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
                 </Dropdown>
             </div>
         </Header>
