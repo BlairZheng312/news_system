@@ -1,16 +1,16 @@
-$color: #e2edfd;
+@use '../../variables' as v;
 
 .sidemenu {
     display: flex;
     height: 100%;
     flex-direction: column;
-    background-color: $color;
+    background-color: v.$background-color;
 }
 
 .sidemenu-logo {
-    background-color: black;
+    background-color: v.$secondary-background-color;
     line-height: 64px;
-    color: #ef3c00d8;
+    color: v.$secondary-color;
     font-size: 16px;
     font-weight: 800;
     text-align: center;
@@ -23,14 +23,14 @@ $color: #e2edfd;
 
 .top-header {
     padding: 0;
-    background-color: $color;
+    background-color: v.$background-color;
 }
 
 .ant-menu-light,
 .ant-menu-light>.ant-menu {
-    background-color: $color;
+    background-color: v.$background-color;
 }
 
 .ant-menu-light .ant-menu-item-selected {
-    background-color: white;
+    background-color: v.$third-background-color;
 }

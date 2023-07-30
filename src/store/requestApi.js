@@ -138,10 +138,10 @@ export const requestApi = createApi({
                 },
             }),
             getNewsByVisit: build.query({
-                query(sortIndex) {
+                query(arg) {
                     return {
                         url: 'news/sort',
-                        params: {sortIndex}
+                        params: {...arg}
                     }
                 },
             }),

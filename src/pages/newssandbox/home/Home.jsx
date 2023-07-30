@@ -1,18 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import _ from 'lodash'
-import { Card, Col, Row, List, Avatar } from 'antd';
-import { EditOutlined, EllipsisOutlined, PieChartOutlined } from '@ant-design/icons';
-import * as echarts from 'echarts';
+import { Card, Col, Row, List, Avatar, Drawer } from 'antd';
+import { PieChartOutlined } from '@ant-design/icons';
 import { useGetNewsByVisitQuery } from '../../../store/requestApi';
-import categoryList from '../../../config/news_category';
+import BarChart from './BarChart';
+import PieChart from './PieChart';
 import cover from './cover.png'
 
 export default function Home() {
-  const { data: dataByStar, isSuccess: isSuccessByStar } = useGetNewsByVisitQuery('star')
-  const { data: dataByView, isSuccess: isSuccessByView } = useGetNewsByVisitQuery('view')
-  const { data, isSuccess } = useGetNewsByVisitQuery()
+  const { Meta } = Card;
+  const auth = useSelector(state => state.auth)
+
+  // fetch news list by views & stars (ranking top 6)
+  const { data: dataByStar, isSuccess: isSuccessByStar } = useGetNewsByVisitQuery({sortIndex:'star'})
+  const { data: dataByView, isSuccess: isSuccessByView } = useGetNewsByVisitQuery({sortIndex:'view'})
 
   const [newsByStar, setNewsByStar] = useState([])
   const [newsByView, setNewsByView] = useState([])
@@ -20,52 +22,16 @@ export default function Home() {
   useEffect(() => {
     isSuccessByStar && setNewsByStar(dataByStar.data)
     isSuccessByView && setNewsByView(dataByView.data)
-    isSuccess && barChart(_.groupBy(data.data, item => item.category))
-  }, [isSuccessByStar, isSuccessByView, isSuccess, dataByStar, dataByView, data])
+  }, [isSuccessByStar, isSuccessByView, dataByStar, dataByView])
 
-  const { Meta } = Card;
-
-  const auth = useSelector(state => state.auth)
-
-  const chartRef = useRef()
-
-  const barChart = (data) => {
-    const myChart = echarts.init(chartRef.current);
-    const xIndex = categoryList.map(item => Object.values(item)[1])
-    const xData = categoryList.map(item => Object.values(item)[0])
-    const xValue = xData.map(item => {
-      if ((Object.keys(data).indexOf(item + '')) !== -1) {
-        return Object.values(data)[Object.keys(data).indexOf(item + '')].length
-      } else {
-        return 0
-      }
-    })
-
-    const option = {
-      title: {
-        text: 'News Category'
-      },
-      legend: {
-        data: ['value']
-      },
-      xAxis: {
-        type: 'category',
-        data: xIndex
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          name: 'value',
-          data: xValue,
-          type: 'bar',
-          color: '#e2edfd'
-        }
-      ]
-    };
-    myChart.setOption(option);
-  }
+  // control drawer open/close (display user' news info)
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -100,16 +66,9 @@ export default function Home() {
         </Col>
         <Col span={8}>
           <Card
-            cover={
-              <img
-                alt="example"
-                src={cover}
-              />
-            }
+            cover={<img alt="cover" src={cover} />}
             actions={[
-              <PieChartOutlined key="chart" />,
-              <EditOutlined key="edit" />,
-              <EllipsisOutlined key="ellipsis" />,
+              <PieChartOutlined key="chart" onClick={showDrawer} />
             ]}
           >
             <Meta
@@ -120,11 +79,15 @@ export default function Home() {
           </Card>
         </Col>
       </Row>
-      <div ref={chartRef} style={{ width: '100%', height: '300px', marginTop: '30px' }}></div>
+      <BarChart />
+      <Drawer title={`${auth.username}' News Publication`} placement="right" onClose={onClose} open={open}>
+        <PieChart />
+      </Drawer>
     </div>
-
   )
 }
+
+
 
 
 

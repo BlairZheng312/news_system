@@ -1,15 +1,15 @@
-$color: #fbb215;
+@use '../../variables' as v;
 
 .login {
-    background-color: #e2edfd;
+    background-color: v.$background-color;
     width: 100%;
     height: 100%;
     white-space: nowrap;
 }
 
 .login-header {
-    background-color: #000723;
-    color: $color;
+    background-color: v.$secondary-background-color;
+    color: v.$theme-color;
     height: 80px;
     line-height: 80px;
     font-size: 40px;
@@ -23,10 +23,10 @@ $color: #fbb215;
 }
 
 .login-content {
-    border: $color 1px solid;
+    border: v.$theme-color 1px solid;
     border-radius: 5%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-    color: #000a34;
+    color: v.$secondary-background-color;
     width: 400px;
     margin: 80px auto;
     font-size: 36px;

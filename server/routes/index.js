@@ -200,14 +200,16 @@ router.get('/news/detail', async (req, res) => {
 })
 
 router.get('/news/sort', async (req, res) => {
-    const { sortIndex } = req.query
+    const { sortIndex, user } = req.query
     let news
     try {
         if (sortIndex) {
             const sortObj = {}
             sortObj[sortIndex] = -1
             news = await NewsModel.find({ publishState: 4 }).sort(sortObj).limit(6)
-        } else {
+        } else if(user) {
+            news = await NewsModel.find({ publishState: 4, author:user })
+        }else{
             news = await NewsModel.find({ publishState: 4 })
         }
         res.send({ code: 0, data: news })
