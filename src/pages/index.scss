@@ -1,32 +1,32 @@
-@use '../../variables' as v;
+@use '../variables' as v;
 
-.login {
-    background-color: v.$background-color;
-    width: 100%;
-    height: 100%;
+.entry {
+    background-color: v.$background-color-blue;
     white-space: nowrap;
 }
 
-.login-header {
-    background-color: v.$secondary-background-color;
-    color: v.$theme-color;
-    height: 80px;
+.login {
+    width: 100%;
+    height: 100%;
+}
+
+.entry-header {
+    background-color: v.$background-color-black;
+    color: v.$theme-color-yellow;
     line-height: 80px;
     font-size: 40px;
     font-weight: 800;
     text-align: center;
-
-    h1 {
-        font-size: 40px;
-        font-weight: 800;
-    }
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .login-content {
-    border: v.$theme-color 1px solid;
+    border: v.$theme-color-yellow 1px solid;
     border-radius: 5%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-    color: v.$secondary-background-color;
+    color: v.$background-color-black;
     width: 400px;
     margin: 80px auto;
     font-size: 36px;
@@ -37,9 +37,21 @@
         font-size: 32px;
         text-align: center;
         margin-bottom: 16px;
-    }   
+    }
 }
 
 .login-submit {
     text-align: center;
+}
+
+.news-content {
+    margin: 20px;
+}
+
+.news-record{
+    overflow:hidden;
+}
+
+.news-detail{
+    margin: 20px;
 }

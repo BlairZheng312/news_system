@@ -5,7 +5,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
 import { useLoginMutation } from '../../store/requestApi';
 import { login } from '../../store/authSlice';
-import './index.scss'
+import '../index.scss'
 
 export default function Login() {
   // define input validation rule
@@ -37,8 +37,8 @@ export default function Login() {
   };
 
   return (
-    <div className='login'>
-      <header className='login-header'>
+    <div className='entry login'>
+      <header className='entry-header'>
         <h1>News Delivery Management System</h1>
       </header>
       <section className='login-content'>

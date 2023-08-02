@@ -4,13 +4,13 @@
     display: flex;
     height: 100%;
     flex-direction: column;
-    background-color: v.$background-color;
+    background-color: v.$background-color-blue;
 }
 
 .sidemenu-logo {
-    background-color: v.$secondary-background-color;
+    background-color: v.$background-color-black;
     line-height: 64px;
-    color: v.$secondary-color;
+    color: v.$secondary-color-orange;
     font-size: 16px;
     font-weight: 800;
     text-align: center;
@@ -23,14 +23,14 @@
 
 .top-header {
     padding: 0;
-    background-color: v.$background-color;
+    background-color: v.$background-color-blue;
 }
 
 .ant-menu-light,
 .ant-menu-light>.ant-menu {
-    background-color: v.$background-color;
+    background-color: v.$background-color-blue;
 }
 
 .ant-menu-light .ant-menu-item-selected {
-    background-color: v.$third-background-color;
+    background-color: v.$background-color-white;
 }

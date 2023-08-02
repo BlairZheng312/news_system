@@ -15,6 +15,8 @@ import Update from '../pages/newssandbox/news_manage/draft/Update'
 import Submit from '../pages/newssandbox/news_manage/submission/Submit'
 import Review from '../pages/newssandbox/review_manage/Review'
 import Publish from '../pages/newssandbox/publish_manage/Publish'
+import News from '../pages/news/News'
+import Detail from '../pages/news/Detail'
 
 const childrenRoutesMap = [
     {
@@ -84,6 +86,14 @@ export default function useIndexRouter() {
         {
             path: '/login',
             element: < Login />
+        },
+        {
+            path: '/news',
+            element: < News />
+        },
+        {
+            path: '/news/:id',
+            element: < Detail />
         },
         {
             path: '/',
