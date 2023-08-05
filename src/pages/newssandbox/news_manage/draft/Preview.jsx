@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router';
-import { Descriptions, Button, Divider } from 'antd';
+import { Descriptions, Button, Divider, message } from 'antd';
 import { ArrowLeftOutlined, HeartTwoTone } from '@ant-design/icons';
 import { useGetNewsQuery, useAddNewsMutation } from '../../../../store/requestApi';
 import categoryList from '../../../../config/news_category';
@@ -24,13 +24,19 @@ export default function Preview(props) {
   const { data, isSuccess } = useGetNewsQuery(newsId)
   const [addNews] = useAddNewsMutation()
   useEffect(() => {
-    isSuccess && setNewsDetail(data.data)
-    isSuccess && visitorEntry && setView(data.data.view + 1)
-    isSuccess && visitorEntry && setStar(data.data.star)
-    isSuccess && visitorEntry && addNews({
-      _id: data.data._id,
-      view: data.data.view + 1
-    })
+    if (isSuccess && data.code === 0) {
+      setNewsDetail(data.data)
+      if (visitorEntry) {
+        setView(data.data.view + 1)
+        setStar(data.data.star)
+        addNews({
+          _id: data.data._id,
+          view: data.data.view + 1
+        })
+      }
+    } else if (isSuccess && data.code !== 0) {
+      message.warning(data.msg)
+    }
   }, [isSuccess, data, addNews, visitorEntry])
 
   // update star

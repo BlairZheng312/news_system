@@ -17,7 +17,7 @@ export default function BarChart() {
     const chartRef = useRef()
 
     const barChart = (data) => {
-        const myChart = echarts.init(chartRef.current);
+        const bar = echarts.init(chartRef.current);
         const xName = categoryList.map(item => Object.values(item)[1])
         const xIndex = categoryList.map(item => Object.values(item)[0])
 
@@ -92,10 +92,10 @@ export default function BarChart() {
             ]
         };
 
-        myChart.setOption(option);
+        bar.setOption(option);
 
         window.onresize = () => {
-            myChart.resize()
+            bar.resize()
         }
     }
 

@@ -13,8 +13,8 @@ export default function Home() {
   const auth = useSelector(state => state.auth)
 
   // fetch news list by views & stars (ranking top 6)
-  const { data: dataByStar, isSuccess: isSuccessByStar } = useGetNewsByVisitQuery({sortIndex:'star'})
-  const { data: dataByView, isSuccess: isSuccessByView } = useGetNewsByVisitQuery({sortIndex:'view'})
+  const { data: dataByStar, isSuccess: isSuccessByStar } = useGetNewsByVisitQuery({ sortIndex: 'star' })
+  const { data: dataByView, isSuccess: isSuccessByView } = useGetNewsByVisitQuery({ sortIndex: 'view' })
 
   const [newsByStar, setNewsByStar] = useState([])
   const [newsByView, setNewsByView] = useState([])

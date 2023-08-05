@@ -3,6 +3,7 @@ import md5 from "blueimp-md5"
 import indexRouter from './routes/index.js'
 import { RoleModel } from "./models/roles.js"
 import { UserModel } from "./models/users.js"
+import cors from 'cors'
 
 // init Super Manager role
 const superManager = await RoleModel.findOne({ role_name: 'Super Manager' })
@@ -42,6 +43,14 @@ if (!adminUser) {
 const app = express()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
+
+// set up cross-origin permission 
+// here allow port 3000 for development & port 7777 for production
+// can add according to the request port
+app.use(cors({
+    origin: ['http://localhost:3000', 'http://localhost:7777']
+}
+));
 
 app.use('/', indexRouter)
 

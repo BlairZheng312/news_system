@@ -3,7 +3,7 @@ import { setLoading } from './loadingSlice'
 
 // set loading state to true before sending request
 // set loading state to false after data fetch is done
-const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' })
+const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:8000/' })
 const baseQueryWithLoading = async (args, api, extraOptions) => {
     api.dispatch(setLoading(true))
     const result = await baseQuery(args, api, extraOptions)
@@ -141,7 +141,7 @@ export const requestApi = createApi({
                 query(arg) {
                     return {
                         url: 'news/sort',
-                        params: {...arg}
+                        params: { ...arg }
                     }
                 },
             }),

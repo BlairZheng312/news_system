@@ -6,20 +6,17 @@ import categoryList from '../../../config/news_category';
 import { useSelector } from 'react-redux';
 
 export default function PieChart() {
-    const auth = useSelector(state=>state.auth)
-    const { data, isSuccess } = useGetNewsByVisitQuery({user: auth.username})
+    const auth = useSelector(state => state.auth)
+    const { data, isSuccess } = useGetNewsByVisitQuery({ user: auth.username })
 
     useEffect(() => {
-        isSuccess && barChart(_.groupBy(data.data, item => item.category))
-        return () => {
-            window.onresize = null
-        }
+        isSuccess && pieChart(_.groupBy(data.data, item => item.category))
     }, [isSuccess, data])
 
     const chartRef = useRef()
 
-    const barChart = (data) => {
-        const myChart = echarts.init(chartRef.current);
+    const pieChart = (data) => {
+        const pie = echarts.init(chartRef.current);
         const xName = categoryList.map(item => Object.values(item)[1])
         const xIndex = categoryList.map(item => Object.values(item)[0])
 
@@ -38,7 +35,6 @@ export default function PieChart() {
             }
             )
         }
-        console.log(dataSet)
 
         const colors = ['black', '#e2edfd', '#fbb215', '#ef3c00d8', 'pink', '#006d75'];
         const option = {
@@ -48,7 +44,7 @@ export default function PieChart() {
             },
             legend: {
                 orient: 'vertical',
-                align: 'auto',
+                left: 'left',
             },
             series: [
                 {
@@ -58,8 +54,9 @@ export default function PieChart() {
                     data: dataSet,
                     label: {
                         show: false,
-                        position: 'center'
-                      },
+                        position:'center'
+                    },
+                    center: ['70%', '45%'],
                     emphasis: {
                         itemStyle: {
                             shadowBlur: 10,
@@ -70,17 +67,13 @@ export default function PieChart() {
                 }
             ]
         };
-        myChart.setOption(option);
-
-        window.onresize = () => {
-            myChart.resize()
-        }
+        pie.setOption(option);
     }
 
     return (
         <div
             ref={chartRef}
-            style={{ width: '100%', height: '100%', marginTop: '30px' }}>
+            style={{ width: '100%', height: '100%', marginTop: '10px' }}>
         </div>
     )
 }

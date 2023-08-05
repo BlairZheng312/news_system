@@ -193,7 +193,11 @@ router.get('/news/detail', async (req, res) => {
     const { newsId } = req.query
     try {
         const news = await NewsModel.findOne({ _id: newsId })
-        res.send({ code: 0, data: news })
+        if (news) {
+            res.send({ code: 0, data: news })
+        } else {
+            res.send({ code: 1, msg: 'News not found, please try again' })
+        }
     } catch {
         res.send({ code: 1, msg: 'Something went wrong, please try again' })
     }
@@ -207,9 +211,9 @@ router.get('/news/sort', async (req, res) => {
             const sortObj = {}
             sortObj[sortIndex] = -1
             news = await NewsModel.find({ publishState: 4 }).sort(sortObj).limit(6)
-        } else if(user) {
-            news = await NewsModel.find({ publishState: 4, author:user })
-        }else{
+        } else if (user) {
+            news = await NewsModel.find({ publishState: 4, author: user })
+        } else {
             news = await NewsModel.find({ publishState: 4 })
         }
         res.send({ code: 0, data: news })
