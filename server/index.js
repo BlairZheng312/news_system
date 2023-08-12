@@ -1,6 +1,9 @@
 import express from "express"
 import md5 from "blueimp-md5"
-import indexRouter from './routes/index.js'
+import loginRouter from './routes/login.js'
+import userRouter from './routes/user.js'
+import newsRouter from './routes/news.js'
+import roleRouter from './routes/role.js'
 import { RoleModel } from "./models/roles.js"
 import { UserModel } from "./models/users.js"
 import cors from 'cors'
@@ -35,7 +38,18 @@ if (!adminUser) {
         password: md5('admin@123'),
         area: 'Global',
         register_time: Date.now(),
-        role: 'Super Manager'
+        role: 'Super Manager',
+        role_permission: [
+            '/home',
+            '/user-manage',
+            '/role-manage',
+            '/news-manage',
+            '/news-manage/compose',
+            '/news-manage/draft',
+            '/news-manage/submitted',
+            '/review-manage',
+            '/publish-manage'
+        ]
     })
     adminUser.save()
 }
@@ -52,7 +66,10 @@ app.use(cors({
 }
 ));
 
-app.use('/', indexRouter)
+app.use('/', loginRouter)
+app.use('/user', userRouter)
+app.use('/role', roleRouter)
+app.use('/news', newsRouter)
 
 app.listen(8000, (err) => {
     if (!err) console.log("server activated")

@@ -63,7 +63,7 @@ const childrenRoutesMap = [
 
 export default function useIndexRouter() {
     // fetch role permission list from store
-    const rolePermission = useSelector(state => state.permission)
+    const rolePermission = useSelector(state => state.auth).role_permission || []
 
     // get route pages according permission list
     const getChildrenRoutes = (childrenRoutesMap, rolePermission) => {
@@ -80,7 +80,7 @@ export default function useIndexRouter() {
         })
         return childrenRoutes
     }
-    const childrenRoutes = getChildrenRoutes(childrenRoutesMap, rolePermission.permissionList)
+    const childrenRoutes = getChildrenRoutes(childrenRoutesMap, rolePermission)
 
     return [
         {

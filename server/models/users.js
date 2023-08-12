@@ -14,6 +14,7 @@ const userSchema = new Schema({
     area: { type: String, required: true },
     register_time: Number,
     role: { type: String, required: true },
+    role_permission: Array
 });
 
 const UserModel = mongoose.model('user', userSchema);

@@ -69,14 +69,6 @@ export const requestApi = createApi({
                     }
                 },
             }),
-            getRole: build.query({
-                query(role_name) {
-                    return {
-                        url: 'role/auth',
-                        params: { role_name }
-                    }
-                },
-            }),
             addRole: build.mutation({
                 query(role) {
                     return {
@@ -132,7 +124,7 @@ export const requestApi = createApi({
             getReviewList: build.query({
                 query(arg) {
                     return {
-                        url: 'review/list',
+                        url: 'news/review-list',
                         params: { ...arg }
                     }
                 },
@@ -156,7 +148,6 @@ export const {
     useUpdateUserMutation,
     useGetUserListQuery,
     useGetRoleListQuery,
-    useGetRoleQuery,
     useAddRoleMutation,
     useAddPermissionMutation,
     useAddNewsMutation,

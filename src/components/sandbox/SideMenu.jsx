@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Layout, Menu } from 'antd';
-import { useGetRoleQuery } from '../../store/requestApi';
 import sideMenuItems from '../../config/side_menu';
-import { setPermissionList } from '../../store/permissionSlice';
 import './index.scss'
 
 function getItem(label, key, icon, children, type) {
@@ -27,14 +25,9 @@ export default function SideMenu() {
     // control sidemenu collapse
     const collapse = useSelector(state => state.collapse);
 
-    // fetch role permission from db and store in redux
+    // fetch role permission from store
     const auth = useSelector(state => state.auth)
-    const dispatch = useDispatch()
-    const { data, isSuccess } = useGetRoleQuery(auth.role)
-    useEffect(() => {
-        isSuccess && dispatch(setPermissionList(data.data.menus))
-    }, [isSuccess, data, dispatch]);
-    const rolePermission = useSelector(state => state.permission).permissionList
+    const rolePermission = (auth.role_permission)
 
     // set sidemenu by role permission
     const getSideMenu = (sideMenuItems, rolePermission) => {
