@@ -3,19 +3,21 @@ import { createSlice } from '@reduxjs/toolkit'
 const authSlice = createSlice({
     name: 'auth',
     initialState: () => {
-        const username = localStorage.getItem('username')
-        if (!username) {
+        const token = localStorage.getItem('token')
+        if (!token) {
             return {
+                token: null,
                 username: null,
                 role: null,
                 role_permission: null,
-                area:null,
+                area: null,
                 isLogin: false,
                 expiry: 0
             }
         }
         return {
-            username,
+            token,
+            username: localStorage.getItem('username'),
             role: localStorage.getItem('role'),
             role_permission: localStorage.getItem('role_permission'),
             area: localStorage.getItem('area'),
@@ -25,6 +27,7 @@ const authSlice = createSlice({
     },
     reducers: {
         login(state, action) {
+            state.token = action.payload.token
             state.username = action.payload.username
             state.role = action.payload.role
             state.role_permission = action.payload.role_permission
@@ -35,6 +38,7 @@ const authSlice = createSlice({
             // const timeout = 1000 * 5
             state.expiry = currentTime + timeout
 
+            localStorage.setItem('token', state.token)
             localStorage.setItem('username', state.username)
             localStorage.setItem('role', state.role)
             localStorage.setItem('role_permission', JSON.stringify(state.role_permission))
@@ -42,12 +46,14 @@ const authSlice = createSlice({
             localStorage.setItem('expiry', state.expiry + '')
         },
         logout(state) {
+            state.token = null
             state.username = null
             state.role = null
             state.role_permission = null
             state.area = null
             state.isLogin = false
 
+            localStorage.removeItem('token')
             localStorage.removeItem('username')
             localStorage.removeItem('role')
             localStorage.removeItem('role_permission')

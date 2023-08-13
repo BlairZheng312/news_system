@@ -1,12 +1,12 @@
 import express from "express"
 import md5 from "blueimp-md5"
+import cors from 'cors'
 import loginRouter from './routes/login.js'
 import userRouter from './routes/user.js'
 import newsRouter from './routes/news.js'
 import roleRouter from './routes/role.js'
 import { RoleModel } from "./models/roles.js"
 import { UserModel } from "./models/users.js"
-import cors from 'cors'
 
 // init Super Manager role
 const superManager = await RoleModel.findOne({ role_name: 'Super Manager' })
@@ -63,8 +63,7 @@ app.use(express.json())
 // can add according to the request port
 app.use(cors({
     origin: ['http://localhost:3000', 'http://localhost:7777']
-}
-));
+}));
 
 app.use('/', loginRouter)
 app.use('/user', userRouter)

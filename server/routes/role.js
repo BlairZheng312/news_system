@@ -1,9 +1,10 @@
 import express from "express"
 import { RoleModel } from "../models/roles.js"
+import verifyToken from "../tokenAuth.js"
 
 const router = express.Router()
 
-router.get('/list', async (_, res) => {
+router.get('/list', verifyToken, async (_, res) => {
     try {
         const roles = await RoleModel.find()
         res.send({ code: 0, data: roles })
@@ -12,7 +13,7 @@ router.get('/list', async (_, res) => {
     }
 })
 
-router.post('/add-role', async (req, res) => {
+router.post('/add-role', verifyToken, async (req, res) => {
     const { role_name } = req.body
     try {
         const role = await RoleModel.findOne({ role_name })
@@ -28,7 +29,7 @@ router.post('/add-role', async (req, res) => {
     }
 })
 
-router.post('/add-permission', async (req, res) => {
+router.post('/add-permission', verifyToken, async (req, res) => {
     const { role_name, auth_name, menus } = req.body
     try {
         const role = await RoleModel.findOne({ role_name })

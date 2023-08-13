@@ -26,8 +26,8 @@ export default function Login() {
     if (userInfo.data.code === 0) {
       message.success('Login success')
       navigate(-1, { replace: true })
-      console.log(userInfo.data.data.role_permission)
       dispatch(login({
+        token: userInfo.data.data.token,
         username: userInfo.data.data.username,
         role: userInfo.data.data.role,
         role_permission: userInfo.data.data.role_permission,

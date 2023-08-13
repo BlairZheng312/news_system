@@ -2,6 +2,8 @@ import express from "express"
 import md5 from "blueimp-md5"
 import { UserModel } from "../models/users.js"
 import { RoleModel } from "../models/roles.js"
+import jwt from 'jsonwebtoken'
+import verifyToken from "../tokenAuth.js"
 
 const router = express.Router()
 
@@ -10,7 +12,8 @@ router.post('/login', async (req, res) => {
     try {
         const user = await UserModel.findOne({ username, password: md5(password) }, { password: 0, __v: 0 })
         if (user) {
-            res.send({ code: 0, data: user })
+            const token = jwt.sign({username}, 'tokenKey', {expiresIn: '1d'})
+            res.send({ code: 0, data: {...user._doc, token} })
         } else {
             res.send({ code: 1, msg: 'Username or password incorrect, please try again' })
         }
@@ -19,7 +22,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', verifyToken, async (req, res) => {
     const { username, password, role, area } = req.body
     try {
         const user = await UserModel.findOne({ username })

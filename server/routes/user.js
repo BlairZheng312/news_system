@@ -1,9 +1,10 @@
 import express from "express"
 import { UserModel } from "../models/users.js"
+import verifyToken from "../tokenAuth.js"
 
 const router = express.Router()
 
-router.post('/delete', async (req, res) => {
+router.post('/delete', verifyToken, async (req, res) => {
     const { userId } = req.body
     try {
         await UserModel.deleteOne({ _id: userId })
@@ -13,7 +14,7 @@ router.post('/delete', async (req, res) => {
     }
 })
 
-router.post('/update', async (req, res) => {
+router.post('/update', verifyToken, async (req, res) => {
     const user = req.body
     try {
         const newUser = await UserModel.findOneAndUpdate({ username: user.username }, user, { new: true })
@@ -25,7 +26,7 @@ router.post('/update', async (req, res) => {
     }
 })
 
-router.get('/list', async (_, res) => {
+router.get('/list', verifyToken, async (_, res) => {
     try {
         const users = await UserModel.find()
         res.send({ code: 0, data: users })

@@ -1,9 +1,10 @@
 import express from "express"
 import { NewsModel } from "../models/news.js"
+import verifyToken from "../tokenAuth.js"
 
 const router = express.Router()
 
-router.post('/add-news', async (req, res) => {
+router.post('/add-news', verifyToken, async (req, res) => {
     const news = req.body
     try {
         if (news._id) {
@@ -24,7 +25,7 @@ router.post('/add-news', async (req, res) => {
     }
 })
 
-router.get('/list', async (req, res) => {
+router.get('/list', verifyToken, async (req, res) => {
     const { author, publishState } = req.query
     try {
         let newsList
@@ -39,7 +40,7 @@ router.get('/list', async (req, res) => {
     }
 })
 
-router.get('/review-list', async (req, res) => {
+router.get('/review-list', verifyToken, async (req, res) => {
     const { area, publishState } = req.query
     try {
         let newsList
@@ -54,7 +55,7 @@ router.get('/review-list', async (req, res) => {
     }
 })
 
-router.post('/delete', async (req, res) => {
+router.post('/delete', verifyToken, async (req, res) => {
     const { newsId } = req.body
     try {
         await NewsModel.deleteOne({ _id: newsId })

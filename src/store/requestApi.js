@@ -3,7 +3,16 @@ import { setLoading } from './loadingSlice'
 
 // set loading state to true before sending request
 // set loading state to false after data fetch is done
-const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:8000/' })
+const baseQuery = fetchBaseQuery({
+    baseUrl: 'http://localhost:8000/',
+    prepareHeaders: (header, { getState }) => {
+        const token = getState().auth.token
+        if (token) {
+            header.set("Authorization", `Bearer ${token}`)
+        }
+        return header
+    }
+})
 const baseQueryWithLoading = async (args, api, extraOptions) => {
     api.dispatch(setLoading(true))
     const result = await baseQuery(args, api, extraOptions)
